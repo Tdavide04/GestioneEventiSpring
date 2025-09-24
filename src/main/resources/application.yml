@@ -1,0 +1,40 @@
+spring:
+  application:
+    name: GestioneEventi
+    version: 0.0.1-SNAPSHOT
+  datasource:
+    url: jdbc:mysql://localhost:3306/gestione_eventi?useSSL=false&serverTimezone=UTC
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+    hikari:
+      pool-name: HikariCP
+      minimum-idle: 5
+      maximum-pool-size: 10
+      idle-timeout: 600000      # 10 minuti
+      connection-timeout: 30000 # 30 secondi
+      max-lifetime: 1800000     # 30 minuti
+      auto-commit: true
+      transaction-isolation: TRANSACTION_READ_COMMITTED
+
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: false
+    open-in-view: true
+
+  thymeleaf:
+    cache: false
+    prefix: classpath:/templates/
+    suffix: .html
+
+server:
+  port: 8080
+  error:
+    whitelabel:
+      enabled: false
