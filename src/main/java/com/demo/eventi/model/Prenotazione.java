@@ -38,12 +38,13 @@ public class Prenotazione {
 
     public Prenotazione() {
 	}
-	public Prenotazione(Long idPrenotazione, Long idUtente, Long idEvento, Integer postiPrenotati,
+
+	public Prenotazione(Long idPrenotazione, Evento evento, Utente utente, Integer postiPrenotati,
 			LocalDate dataCreazione) {
 		super();
 		this.idPrenotazione = idPrenotazione;
-		this.idUtente = idUtente;
-		this.idEvento = idEvento;
+		this.evento = evento;
+		this.utente = utente;
 		this.postiPrenotati = postiPrenotati;
 		this.dataCreazione = dataCreazione;
 	}
@@ -56,20 +57,20 @@ public class Prenotazione {
 		this.idPrenotazione = idPrenotazione;
 	}
 
-	public Long getIdUtente() {
-		return idUtente;
+	public Evento getEvento() {
+		return evento;
 	}
 
-	public void setIdUtente(Long idUtente) {
-		this.idUtente = idUtente;
+	public void setEvento(Evento evento) {
+		this.evento = evento;
 	}
 
-	public Long getIdEvento() {
-		return idEvento;
+	public Utente getUtente() {
+		return utente;
 	}
 
-	public void setIdEvento(Long idEvento) {
-		this.idEvento = idEvento;
+	public void setUtente(Utente utente) {
+		this.utente = utente;
 	}
 
 	public Integer getPostiPrenotati() {
@@ -88,5 +89,4 @@ public class Prenotazione {
 		this.dataCreazione = dataCreazione;
 	}
     
-
 }
