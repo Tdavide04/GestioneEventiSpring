@@ -1,0 +1,31 @@
+HELP.md
+target/
+!.mvn/wrapper/maven-wrapper.properties
+.mvn/wrapper/maven-wrapper.jar
+.gitattributes
+
+### Maven wrapper scripts (keep them for portability) ###
+!mvnw
+!mvnw.cmd
+.mvn
+mvnw
+mvnw.cmd
+
+### STS / Eclipse ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings/
+.springBeans
+.sts4-cache
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
