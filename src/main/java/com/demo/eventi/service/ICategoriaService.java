@@ -9,7 +9,7 @@ public interface ICategoriaService {
 	
 	Categoria aggiornaCategoria(Categoria categoria) throws Exception;
 	
-	void eliminaCategoria(Long id);
+	void eliminaCategoria(Long id) throws Exception;
 	
 	Optional<Categoria> trovaPerId(Long id);
 	
