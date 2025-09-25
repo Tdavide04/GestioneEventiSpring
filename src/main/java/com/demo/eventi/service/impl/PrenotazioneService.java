@@ -19,10 +19,20 @@ private final PrenotazioneRepository prenotazioneRepository;
 		// vedere se servono controlli
 		return prenotazioneRepository.save(prenotazione);
 	}
+	
+	@Override
+	public Prenotazione aggiornaPrenotazione(Prenotazione prenotazione) {
+		return prenotazioneRepository.save(prenotazione);
+	}
+
+	@Override
+	public void eliminaPrenotazione(Long id) {
+		prenotazioneRepository.deleteById(id);
+		
+	}
 
 	@Override
 	public Optional<Prenotazione> trovaPerId(Long id) {
 		return prenotazioneRepository.findById(id);
 	}
-
 }

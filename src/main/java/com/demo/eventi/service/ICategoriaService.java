@@ -7,6 +7,10 @@ import com.demo.eventi.model.Categoria;
 public interface ICategoriaService {
 	Categoria creaCategoria(Categoria categoria) throws Exception;
 	
+	Categoria aggiornaCategoria(Categoria categoria) throws Exception;
+	
+	void eliminaCategoria(Long id);
+	
 	Optional<Categoria> trovaPerId(Long id);
 	
 	Optional<Categoria> trovaPerNome(String nome);

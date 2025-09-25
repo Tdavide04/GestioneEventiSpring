@@ -19,10 +19,20 @@ private final EventoRepository eventoRepository;
 		// vedere se servono controlli
 		return eventoRepository.save(evento);
 	}
+	
+	@Override
+	public Evento aggiornaEvento(Evento evento) {
+		return eventoRepository.save(evento);
+	}
+
+	@Override
+	public void eliminaEvento(Long id) {
+		eventoRepository.deleteById(id);
+		
+	}
 
 	@Override
 	public Optional<Evento> trovaPerId(Long id) {
 		return eventoRepository.findById(id);
 	}
-
 }

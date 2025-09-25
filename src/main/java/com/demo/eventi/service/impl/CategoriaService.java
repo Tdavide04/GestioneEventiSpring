@@ -21,6 +21,19 @@ public class CategoriaService implements ICategoriaService{
 		}
 		return categoriaRepository.save(categoria);
 	}
+	
+	@Override
+	public Categoria aggiornaCategoria(Categoria categoria) throws Exception {
+		if (categoriaRepository.existsByNome(categoria.getNome())) {
+			throw new Exception("Nome già in uso");
+		}
+		return categoriaRepository.save(categoria);
+	}
+	
+	@Override
+	public void eliminaCategoria(Long id) {
+		categoriaRepository.deleteById(id);
+	}
 
 	@Override
 	public Optional<Categoria> trovaPerId(Long id) {
