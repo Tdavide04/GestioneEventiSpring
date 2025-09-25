@@ -37,7 +37,7 @@ public class Utente {
 	private String password;
 	@Column(name = "ruolo", nullable = false)
 	@Enumerated(EnumType.STRING)
-	private Ruolo ruolo;
+	private Ruolo ruolo = Ruolo.CLIENTE;
 	@OneToMany(mappedBy = "utente")
 	private List<Prenotazione> prenotazioni = new ArrayList<>();
 	public Utente() {
