@@ -8,10 +8,10 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface EventoRepository extends JpaRepository<Evento, Long> {
-	
+
 	// per visualizzare gli eventi ancora disponibili
 	List<Evento> findByDataFineAfter(LocalDate data);
-	
+
 	// per visualizzare gli eventi creati in una certa data
 	List<Evento> findByDataCreazione(LocalDate data);
 }

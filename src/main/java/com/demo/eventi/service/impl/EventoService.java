@@ -15,9 +15,9 @@ import jakarta.transaction.Transactional;
 @Service
 @Transactional
 public class EventoService implements IEventoService {
-	
-private final EventoRepository eventoRepository;
-	
+
+	private final EventoRepository eventoRepository;
+
 	public EventoService(EventoRepository eventoRepository) {
 		this.eventoRepository = eventoRepository;
 	}
@@ -26,23 +26,22 @@ private final EventoRepository eventoRepository;
 	public Evento creaEvento(Evento evento) {
 		return eventoRepository.save(evento);
 	}
-	
+
 	@Override
 	public Evento aggiornaEvento(Evento evento) throws Exception {
 		if (!eventoRepository.existsById(evento.getIdEvento())) {
-	        throw new Exception("Evento non trovato per l'ID: " + evento.getIdEvento());
-	    }
+			throw new Exception("Evento non trovato per l'ID: " + evento.getIdEvento());
+		}
 		return eventoRepository.save(evento);
 	}
 
 	@Override
 	public void eliminaEvento(Long id) throws Exception {
-	    if (!eventoRepository.existsById(id)) {
-	        throw new Exception("Evento non trovato per ID: " + id);
-	    }
-	    eventoRepository.deleteById(id);
+		if (!eventoRepository.existsById(id)) {
+			throw new Exception("Evento non trovato per ID: " + id);
+		}
+		eventoRepository.deleteById(id);
 	}
-
 
 	@Override
 	public Optional<Evento> trovaPerId(Long id) {
@@ -53,9 +52,9 @@ private final EventoRepository eventoRepository;
 	public List<Evento> trovaDisponibili() {
 		return eventoRepository.findByDataFineAfter(LocalDate.now());
 	}
-	
+
 	@Override
-	public List<Evento> trovaPerDataCreazione(LocalDate data){
+	public List<Evento> trovaPerDataCreazione(LocalDate data) {
 		return eventoRepository.findByDataCreazione(data);
 	}
 }
