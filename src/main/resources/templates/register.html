@@ -4,20 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register</title>
+	<style>
+        body {
+            text-align: center;
+            color: maroon;
+            background-color: PapayaWhip;
+        }
+    </style>
 
 </head>
 <body>
+
     <div>
-        <h1>Register</h1>
+    
+    
+        <h1>Welcome to WonderTicket</h1>
+        <h2>Register</h2>
 
         <form th:action="@{/register}" th:object="${user}" method="post">
             <label>Username: <input type="text" th:field="*{username}" required/></label>
             <label>Email: <input type="email" id="email" name="email" th:field="*{email}" required/></label>
             <label>Password: <input type="password" id="pwd" name="pwd" th:field="*{password}" required/></label>
-            <button type="submit">Registrati</button>
+            <button type="submit">Register</button>
         </form>
         
-        <p>Hai già un account? <a class="white" th:href="@{/login}">Accedi</a></p>
+        <p>Do you already have an account? <a class="white" th:href="@{/login}">Login</a></p>
     </div>
 </body>
 </html>
