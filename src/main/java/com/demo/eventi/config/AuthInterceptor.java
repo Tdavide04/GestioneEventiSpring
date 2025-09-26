@@ -31,7 +31,7 @@ public class AuthInterceptor implements HandlerInterceptor {
 
 		// Rotte libere: login, registrazione e cartella CSS
 		// Queste rotte possono essere visitate anche senza essere loggati
-		if (uri.startsWith("/login") || uri.startsWith("/register") || uri.startsWith("/css")) {
+		if (uri.startsWith("/login") || uri.startsWith("/register") || uri.startsWith("/css") || uri.startsWith("/images")) {
 			return true;
 		}
 

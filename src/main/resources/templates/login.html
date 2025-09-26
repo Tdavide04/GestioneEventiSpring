@@ -49,6 +49,22 @@ body {
 	left: 0;
 }
 
+.side-image {
+	position: fixed;
+	top: 60px; /* lascia spazio per l'header */
+	bottom: 60px; /* lascia spazio per il footer */
+	width: 120px; /* regola larghezza */
+	object-fit: cover;
+}
+
+.side-image.left {
+	left: 0;
+}
+
+.side-image.right {
+	right: 0;
+}
+
 label {
 	display: block;
 	margin: 10px 0;
@@ -73,6 +89,12 @@ a {
 </head>
 <body>
 	<div class="header">Welcome to WonderTicket</div>
+	<img th:src="@{/images/maple.jpg}" alt="Decorazione sinistra"
+		class="side-image left">
+	<img th:src="@{/images/maple.jpg}" alt="Decorazione destra"
+		class="side-image right">
+
+
 	<div class="container">
 		<h1>Login</h1>
 
