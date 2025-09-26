@@ -44,6 +44,10 @@
             color: white;
             padding: 15px 0;
             text-align: center;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
         }
     </style>
 </head>
@@ -52,7 +56,7 @@
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg">
   <div class="container">
-    <a class="navbar-brand" href="#">Gestione Eventi</a>
+    <a class="navbar-brand" href="#">Wonder Ticket - Eventi</a>
     <div class="collapse navbar-collapse">
       <ul class="navbar-nav ms-auto">
         <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
@@ -83,7 +87,7 @@
         </div>
     </div>
 
-    <div th:if="${eventi == null or eventi.isEmpty()}" class="alert alert-info text-center">
+    <div th:if="${eventi == null or eventi.isEmpty()}" class="alert alert-info text-center" style="background-color: white;">
         Nessun evento disponibile.
     </div>
 </div>
