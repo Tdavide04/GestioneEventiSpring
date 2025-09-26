@@ -49,7 +49,10 @@ public class AuthController {
                             RedirectAttributes redirectAttrs) {
         try {
             if (utenteService.verificaPassword(username, password)) {
+                Utente utente = utenteService.trovaPerUsername(username).orElseThrow();
                 session.setAttribute("loggedUtente", username);
+                session.setAttribute("loggedRuolo", utente.getRuolo());
+
                 return "redirect:/evento/evento-lista";
             } else {
                 redirectAttrs.addFlashAttribute("error", "Credenziali errate");
