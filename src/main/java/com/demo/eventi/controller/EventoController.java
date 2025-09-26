@@ -38,7 +38,7 @@ public class EventoController {
                 .orElseThrow(() -> new Exception("Utente non trovato"));
     }
 	
-	@GetMapping
+	@GetMapping("/evento-lista")
     public String listaEventiDisponibili(Model model, HttpSession session) {
         try {
         	Utente utente = getLoggedUser(session);

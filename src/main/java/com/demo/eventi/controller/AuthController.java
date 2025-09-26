@@ -20,12 +20,12 @@ public class AuthController {
 
     @GetMapping("/register")
     public String showRegistrationForm(Model model) {
-        model.addAttribute("user", new Utente());
+        model.addAttribute("utente", new Utente());
         return "register";
     }
 
     @PostMapping("/register")
-    public String registerUser(@ModelAttribute Utente utente,
+    public String registerUtente(@ModelAttribute Utente utente,
                                RedirectAttributes redirectAttrs) {
         try {
             utenteService.registraUtente(utente);
@@ -49,8 +49,8 @@ public class AuthController {
                             RedirectAttributes redirectAttrs) {
         try {
             if (utenteService.verificaPassword(username, password)) {
-                session.setAttribute("loggedUser", username);
-                return "redirect:/evento";
+                session.setAttribute("loggedUtente", username);
+                return "redirect:/evento/evento-lista";
             } else {
                 redirectAttrs.addFlashAttribute("error", "Credenziali errate");
                 return "redirect:/login";
@@ -62,7 +62,7 @@ public class AuthController {
     }
 
     @GetMapping("/logout")
-    public String logoutUser(HttpSession session, RedirectAttributes redirectAttrs) {
+    public String logoutUtente(HttpSession session, RedirectAttributes redirectAttrs) {
         session.invalidate();
         redirectAttrs.addFlashAttribute("success", "Logout effettuato con successo.");
         return "redirect:/login";
