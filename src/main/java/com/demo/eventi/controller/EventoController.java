@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.demo.eventi.model.Categoria;
 import com.demo.eventi.model.Evento;
 import com.demo.eventi.model.Utente;
 import com.demo.eventi.service.ICategoriaService;
@@ -60,12 +61,16 @@ public class EventoController {
     @PostMapping
     public String creaEvento(@ModelAttribute Evento evento, HttpSession session, RedirectAttributes redirectAttrs) {
         try {
+            Categoria categoria = categoriaService.trovaPerId(evento.getCategoria().getIdCategoria())
+                                 .orElseThrow(() -> new Exception("Categoria non valida"));
+            evento.setCategoria(categoria);
+
             eventoService.creaEvento(evento);
             redirectAttrs.addFlashAttribute("success", "Evento creato con successo!");
             return "redirect:/evento/evento-lista";
         } catch (Exception e) {
-            redirectAttrs.addFlashAttribute("error", "Errore durante la creazione dell'evento.");
-            return "redirect:/evento/evento/nuovo";
+            redirectAttrs.addFlashAttribute("error", "Errore durante la creazione dell'evento: " + e.getMessage());
+            return "redirect:/evento/nuovo";
         }
     }
 }
