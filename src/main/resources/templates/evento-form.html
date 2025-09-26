@@ -93,7 +93,7 @@
 
         <div class="mb-3">
             <label class="form-label">Categoria</label>
-			<select th:field="*{categoria.idCategoria}" class="form-select" required>
+			<select name="categoriaId" class="form-select" required>
 			    <option value="" disabled selected>-- Seleziona una categoria --</option>
 			    <option th:each="cat : ${categorie}"
 			            th:value="${cat.idCategoria}"
