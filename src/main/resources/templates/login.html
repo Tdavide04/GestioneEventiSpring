@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login</title>
+<style>
+body {
+	text-align: center;
+	color: maroon;
+	background-color: PapayaWhip;
+	font-family: Arial, sans-serif;
+}
+
+.container {
+	display: inline-block;
+	padding: 20px;
+	border: 2px solid maroon;
+	border-radius: 10px;
+	background-color: #fffaf0; 
+}
+
+label {
+	display: block;
+	margin: 10px 0;
+}
+
+input, button {
+	border-radius: 5px;
+	padding: 5px;
+	border: 1px solid maroon;
+}
+
+button {
+	background-color: maroon;
+	color: white;
+	cursor: pointer;
+}
+
+a {
+	color: maroon;
+}
+</style>
+</head>
+<body>
+	<div class="container">
+		<h1>Login</h1>
+
+		<!-- Messaggi flash -->
+		<div th:if="${success}" style="color: green;" th:text="${success}"></div>
+		<div th:if="${error}" style="color: red;" th:text="${error}"></div>
+
+		<form th:action="@{/login}" method="post">
+			<label>Username: <input type="text" name="username" required />
+			</label> <label>Password: <input type="password" name="password"
+				required />
+			</label>
+			<button type="submit">Login</button>
+		</form>
+
+		<p>
+			Don't have an account? <a th:href="@{/register}">Register</a>
+		</p>
+	</div>
+</body>
+</html>
