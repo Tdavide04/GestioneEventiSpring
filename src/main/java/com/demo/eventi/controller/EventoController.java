@@ -65,7 +65,7 @@ public class EventoController {
             return "redirect:/evento/evento-lista";
         } catch (Exception e) {
             redirectAttrs.addFlashAttribute("error", "Errore durante la creazione dell'evento.");
-            return "redirect:/evento/evento-nuovo";
+            return "redirect:/evento/evento/nuovo";
         }
     }
 }
