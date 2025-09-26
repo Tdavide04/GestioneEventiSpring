@@ -1,5 +1,6 @@
 package com.demo.eventi.service.impl;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
@@ -56,5 +57,10 @@ public class CategoriaService implements ICategoriaService {
 	public Optional<Categoria> trovaPerNome(String nome) {
 		return categoriaRepository.findByNome(nome);
 	}
+
+	@Override
+    public List<Categoria> trovaTutte() {
+        return categoriaRepository.findAll();
+    }
 
 }

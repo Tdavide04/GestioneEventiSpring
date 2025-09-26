@@ -1,5 +1,6 @@
 package com.demo.eventi.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import com.demo.eventi.model.Categoria;
@@ -14,4 +15,6 @@ public interface ICategoriaService {
 	Optional<Categoria> trovaPerId(Long id);
 
 	Optional<Categoria> trovaPerNome(String nome);
+	
+	List<Categoria> trovaTutte();
 }

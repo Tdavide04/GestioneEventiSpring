@@ -12,6 +12,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.demo.eventi.model.Evento;
 import com.demo.eventi.model.Utente;
+import com.demo.eventi.service.ICategoriaService;
 import com.demo.eventi.service.IEventoService;
 import com.demo.eventi.service.IUtenteService;
 
@@ -22,10 +23,12 @@ import jakarta.servlet.http.HttpSession;
 public class EventoController {
 	private final IEventoService eventoService;
 	private final IUtenteService utenteService;
+	private final ICategoriaService categoriaService;
 	
-	public EventoController(IEventoService eventoService, IUtenteService utenteService) {
+	public EventoController(IEventoService eventoService, IUtenteService utenteService, ICategoriaService categoriaService) {
 		this.eventoService = eventoService;
 		this.utenteService = utenteService;
+		this.categoriaService = categoriaService;
 	}
 	
 	private Utente getLoggedUser(HttpSession session) throws Exception {
@@ -50,6 +53,7 @@ public class EventoController {
     @GetMapping("/nuovo")
     public String mostraCreazioneEventoForm(Model model) {
         model.addAttribute("evento", new Evento());
+        model.addAttribute("categorie", categoriaService.trovaTutte());
         return "evento-form";
     }
     
