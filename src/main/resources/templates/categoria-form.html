@@ -6,11 +6,6 @@
 </head>
 <body>
 <h1>New Category</h1>
-<div th:if="${session.loggedUtente != null}">
-    <div th:if="${#authentication == null or #authorization.expression('hasRole(''ADMIN'')')}" >
-        <a th:href="@{/categoria/nuova}">Create new category</a>
-    </div>
-</div>
 
 <form th:action="@{/categoria/crea}" th:object="${categoria}" method="post">
     <label>Category name:</label>

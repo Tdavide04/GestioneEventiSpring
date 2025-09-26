@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Eventi - Homepage</title>
+    <title>Events - Homepage</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <style>
         body {
@@ -40,11 +40,12 @@
 
 <nav class="navbar navbar-expand-lg">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">Gestione Eventi</a>
+        <a class="navbar-brand" href="#">Event Management</a>
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav ms-auto">
-                <li class="nav-item"><a class="nav-link" th:href="@{/evento/nuovo}">Aggiungi Evento</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/evento/nuovo}">Add an Event</a></li>
                 <li class="nav-item"><a class="nav-link" th:href="@{/logout}">Logout</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/catgoria/nuova}">Create Category</a>
             </ul>
         </div>
     </div>
@@ -52,31 +53,36 @@
 
 <div class="container mt-4">
 
-    <h1 class="mb-4">Elenco Eventi</h1>
+    <h1 class="mb-4">Event list</h1>
 
     <!-- Messaggi flash -->
     <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
     <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+    
+    <div th:if="${session.loggedUtente != null}">
+    <div th:if="${#authentication == null or #authorization.expression('hasRole(''ADMIN'')')}" >
+    </div>
+</div>
 
     <table class="table table-bordered table-hover table-striped">
         <thead class="table-dark text-center">
             <tr>
-                <th>Nome</th>
-                <th>Descrizione</th>
-                <th>Posti Totali</th>
-                <th>Categoria</th>
-                <th>Prezzo</th>
-                <th>Data Inizio</th>
-                <th>Data Fine</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Total places</th>
+                <th>Category</th>
+                <th>Price</th>
+                <th>Start</th>
+                <th>Finish</th>
                 <!-- Aggiungere una colonna Azioni -->
             </tr>
         </thead>
         <tbody>
             <tr th:each="evento : ${eventi}">
-                <td th:text="${evento.nome}">Nome</td>
-                <td th:text="${evento.descrizione}">Descrizione</td>
+                <td th:text="${evento.nome}">Name</td>
+                <td th:text="${evento.descrizione}">Description</td>
                 <td th:text="${evento.postiTotali}">0</td>
-                <td th:text="${evento.categoria.nome}">Categoria</td>
+                <td th:text="${evento.categoria.nome}">Category</td>
                 <td th:text="${evento.prezzo} + ' €'">0 €</td>
                 <td th:text="${#temporals.format(evento.dataInizio, 'dd/MM/yyyy')}">01/01/2025</td>
                 <td th:text="${#temporals.format(evento.dataFine, 'dd/MM/yyyy')}">02/01/2025</td>
@@ -86,7 +92,7 @@
 </div>
 
 <footer>
-    <p>&copy; 2025 - Gestione Eventi</p>
+    <p>&copy; 2025 - Event Management</p>
 </footer>
 
 </body>
