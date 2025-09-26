@@ -50,7 +50,7 @@ public class AuthController {
         try {
             if (utenteService.verificaPassword(username, password)) {
                 session.setAttribute("loggedUser", username);
-                return "redirect:/tasks";
+                return "redirect:/evento";
             } else {
                 redirectAttrs.addFlashAttribute("error", "Credenziali errate");
                 return "redirect:/login";
