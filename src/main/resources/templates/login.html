@@ -6,10 +6,28 @@
 <title>Login</title>
 <style>
 body {
-	text-align: center;
+	margin: 0;
+	height: 100vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 	color: maroon;
 	background-color: PapayaWhip;
 	font-family: Arial, sans-serif;
+	text-align: center;
+}
+
+.header {
+	width: 100%;
+	background-color: maroon;
+	color: white;
+	text-align: center;
+	padding: 15px;
+	position: fixed;
+	top: 0;
+	left: 0;
+	font-size: 20px;
+	font-weight: bold;
 }
 
 .container {
@@ -17,7 +35,18 @@ body {
 	padding: 20px;
 	border: 2px solid maroon;
 	border-radius: 10px;
-	background-color: #fffaf0; 
+	background-color: #fffaf0;
+}
+
+.footer {
+	width: 100%;
+	background-color: maroon;
+	color: white;
+	text-align: center;
+	padding: 15px;
+	position: fixed;
+	bottom: 0;
+	left: 0;
 }
 
 label {
@@ -43,6 +72,7 @@ a {
 </style>
 </head>
 <body>
+	<div class="header">Welcome to WonderTicket</div>
 	<div class="container">
 		<h1>Login</h1>
 
@@ -61,6 +91,9 @@ a {
 		<p>
 			Don't have an account? <a th:href="@{/register}">Register</a>
 		</p>
+	</div>
+	<div class="footer">
+		<p>Call us: +39 333 1234567 | Email: support@wonderticket.com</p>
 	</div>
 </body>
 </html>

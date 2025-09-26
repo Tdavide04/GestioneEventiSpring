@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Oops! Something went wrong.</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+            background-color: #f2f2f2;
+        }
+        .error-box {
+            background: white;
+            display: inline-block;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .error-code {
+            font-size: 48px;
+            color: #e74c3c;
+        }
+    </style>
+</head>
+<body>
+<div class="error-box">
+    <div class="error-code" th:text="${statusCode}">Errore</div>
+    <h1>Something went wrong.</h1>
+    <p>We are sorry. Go back to: <a href="/">home</a>.</p>
+</div>
+</body>
+</html>
