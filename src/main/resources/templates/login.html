@@ -3,97 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="/css/style.css">
 <title>Login</title>
-<style>
-body {
-	margin: 0;
-	height: 100vh;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	color: maroon;
-	background-color: PapayaWhip;
-	font-family: Arial, sans-serif;
-	text-align: center;
-}
-
-.header {
-	width: 100%;
-	background-color: maroon;
-	color: white;
-	text-align: center;
-	padding: 15px;
-	position: fixed;
-	top: 0;
-	left: 0;
-	font-size: 20px;
-	font-weight: bold;
-}
-
-.container {
-	display: inline-block;
-	padding: 20px;
-	border: 2px solid maroon;
-	border-radius: 10px;
-	background-color: #fffaf0;
-}
-
-.footer {
-	width: 100%;
-	background-color: maroon;
-	color: white;
-	text-align: center;
-	padding: 15px;
-	position: fixed;
-	bottom: 0;
-	left: 0;
-}
-
-.side-image {
-	position: fixed;
-	top: 60px; /* lascia spazio per l'header */
-	bottom: 60px; /* lascia spazio per il footer */
-	width: 120px; /* regola larghezza */
-	object-fit: cover;
-}
-
-.side-image.left {
-	left: 0;
-}
-
-.side-image.right {
-	right: 0;
-}
-
-label {
-	display: block;
-	margin: 10px 0;
-}
-
-input, button {
-	border-radius: 5px;
-	padding: 5px;
-	border: 1px solid maroon;
-}
-
-button {
-	background-color: maroon;
-	color: white;
-	cursor: pointer;
-}
-
-a {
-	color: maroon;
-}
-</style>
 </head>
 <body>
 	<div class="header">Welcome to WonderTicket</div>
-	<img th:src="@{/images/maple.jpg}" alt="Decorazione sinistra"
-		class="side-image left">
-	<img th:src="@{/images/maple.jpg}" alt="Decorazione destra"
-		class="side-image right">
 
+	<div>
+		<img th:src="@{/images/maple.jpg}" alt="Decorazione sinistra"
+			class="side-image left"><img th:src="@{/images/maple.jpg}"
+			alt="Decorazione destra" class="side-image right">
+	</div>
 
 	<div class="container">
 		<h1>Login</h1>
@@ -103,10 +23,9 @@ a {
 		<div th:if="${error}" style="color: red;" th:text="${error}"></div>
 
 		<form th:action="@{/login}" method="post">
-			<label>Username: <input type="text" name="username" required />
-			</label> <label>Password: <input type="password" name="password"
-				required />
-			</label>
+			<label>Username: <input type="text" name="username" required /></label>
+			<label>Password: <input type="password" name="password"
+				required /></label>
 			<button type="submit">Login</button>
 		</form>
 
@@ -114,6 +33,7 @@ a {
 			Don't have an account? <a th:href="@{/register}">Register</a>
 		</p>
 	</div>
+
 	<div class="footer">
 		<p>Call us: +39 333 1234567 | Email: support@wonderticket.com</p>
 	</div>

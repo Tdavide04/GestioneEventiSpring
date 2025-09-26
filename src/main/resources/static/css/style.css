@@ -1,0 +1,90 @@
+body {
+	margin: 0;
+	height: 100vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	color: maroon;
+	background-color: PapayaWhip;
+	font-family: Arial, sans-serif;
+	text-align: center;
+}
+
+.header {
+	width: 100%;
+	background-color: maroon;
+	color: white;
+	text-align: center;
+	padding: 15px;
+	position: fixed;
+	top: 0;
+	left: 0;
+	font-size: 20px;
+	font-weight: bold;
+}
+
+.footer {
+	width: 100%;
+	background-color: maroon;
+	color: white;
+	text-align: center;
+	padding: 15px;
+	position: fixed;
+	bottom: 0;
+	left: 0;
+}
+
+.side-image {
+	position: fixed;
+	top: 53.2px;
+	bottom: 60px;
+	width: 15%;
+	max-width: 200px;
+	object-fit: cover;
+	height: 100%;
+}
+
+.side-image.left {
+	left: 0;
+}
+
+.side-image.right {
+	right: 0;
+}
+
+.container {
+	display: inline-block;
+	padding: 20px;
+	border: 2px solid maroon;
+	border-radius: 10px;
+	background-color: #fffaf0;
+	margin: 0 220px;
+}
+
+label {
+	display: block;
+	margin: 10px 0;
+}
+
+input, button {
+	border-radius: 5px;
+	padding: 5px;
+	border: 1px solid maroon;
+}
+
+button {
+	background-color: maroon;
+	color: white;
+	cursor: pointer;
+}
+
+a {
+	color: maroon;
+}
+
+.register-form-field {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: baseline;
+}

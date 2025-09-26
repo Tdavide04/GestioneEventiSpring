@@ -4,75 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Register</title>
-<style>
-body {
-	margin: 0;
-	height: 100vh;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	color: maroon;
-	background-color: PapayaWhip;
-	font-family: Arial, sans-serif;
-	text-align: center;
-}
-
-.header {
-	width: 100%;
-	background-color: maroon;
-	color: white;
-	text-align: center;
-	padding: 15px;
-	position: fixed;
-	top: 0;
-	left: 0;
-	font-size: 20px;
-	font-weight: bold;
-}
-
-.container {
-	display: inline-block;
-	padding: 20px;
-	border: 2px solid maroon;
-	border-radius: 10px;
-	background-color: #fffaf0;
-}
-
-.footer {
-	width: 100%;
-	background-color: maroon;
-	color: white;
-	text-align: center;
-	padding: 15px;
-	position: fixed;
-	bottom: 0;
-	left: 0;
-}
-
-label {
-	display: block;
-	margin: 10px 0;
-}
-
-input, button {
-	border-radius: 5px;
-	padding: 5px;
-	border: 1px solid maroon;
-}
-
-button {
-	background-color: maroon;
-	color: white;
-	cursor: pointer;
-}
-
-a {
-	color: maroon;
-}
-</style>
+ <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
 	<div class="header">Welcome to WonderTicket</div>
+		<div>
+		<img th:src="@{/images/maple.jpg}" alt="Decorazione sinistra"
+			class="side-image left"><img th:src="@{/images/maple.jpg}"
+			alt="Decorazione destra" class="side-image right">
+	</div>
 	<div class="container">
 
 		<h2>Register</h2>
@@ -81,12 +21,14 @@ a {
 		<div th:if="${success}" style="color: green;" th:text="${success}"></div>
 		<div th:if="${error}" style="color: red;" th:text="${error}"></div>
 
-		<form th:action="@{/register}" th:object="${user}" method="post">
-			<label>Username: <input type="text" th:field="*{username}"
+		<form th:action="@{/register}" th:object="${utente}" method="post">
+			<label class="register-form-field">Username: <input type="text" th:field="*{username}"
 				required />
-			</label> <label>Email: <input type="email" th:field="*{email}"
+			</label> 
+			<label class="register-form-field">Email: <input type="email" th:field="*{email}"
 				required />
-			</label> <label>Password: <input type="password"
+			</label> 
+			<label class="register-form-field">Password: <input type="password"
 				th:field="*{password}" required />
 			</label>
 			<button type="submit">Register</button>
