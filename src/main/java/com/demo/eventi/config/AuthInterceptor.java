@@ -23,8 +23,8 @@ public class AuthInterceptor implements HandlerInterceptor {
 
 		// Recupera la sessione corrente senza crearne una nuova (false)
 		HttpSession session = request.getSession(false);
-		// Controlla se l’utente è loggato: esiste una sessione e contiene "loggedUser"
-		boolean loggedIn = (session != null && session.getAttribute("loggedUser") != null);
+		// Controlla se l’utente è loggato: esiste una sessione e contiene "loggedUtente"
+		boolean loggedIn = (session != null && session.getAttribute("loggedUtente") != null);
 
 		// Ottiene l’URI della richiesta (es: /login, /tasks, /css/style.css)
 		String uri = request.getRequestURI();

@@ -62,10 +62,10 @@ public class EventoController {
         try {
             eventoService.creaEvento(evento);
             redirectAttrs.addFlashAttribute("success", "Evento creato con successo!");
-            return "redirect:/evento";
+            return "redirect:/evento/evento-lista";
         } catch (Exception e) {
             redirectAttrs.addFlashAttribute("error", "Errore durante la creazione dell'evento.");
-            return "redirect:/evento";
+            return "redirect:/evento/evento-nuovo";
         }
     }
 }
