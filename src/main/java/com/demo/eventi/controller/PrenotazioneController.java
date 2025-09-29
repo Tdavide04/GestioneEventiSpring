@@ -45,12 +45,20 @@ public class PrenotazioneController {
 			HttpSession session, RedirectAttributes redirectAttrs) {
 
 		try {
-			Evento evento = eventoService.trovaPerId(idEvento).orElseThrow(() -> new RuntimeException("Evento non trovato con id: " + idEvento));;
+			Evento evento = eventoService.trovaPerId(idEvento)
+					.orElseThrow(() -> new RuntimeException("Evento non trovato con id: " + idEvento));;
 			Prenotazione prenotazione = prenotazioneService.creaPrenotazione(evento, getLoggedUser(session), postiPrenotati);
-		} catch (Exception e) {
-			
-		}
-		return "";
+			if (prenotazione != null) {
+                redirectAttrs.addFlashAttribute("successo", "Prenotazione creata con successo!");
+            } else {
+                redirectAttrs.addFlashAttribute("errore", "Impossibile creare la prenotazione.");
+            }
+            return "redirect:/prenotazione/lista-prenotazioni";
+
+        } catch (Exception e) {
+            redirectAttrs.addFlashAttribute("errore", "Errore durante la creazione della prenotazione: " + e.getMessage());
+            return "redirect:/prenotazione/lista-prenotazioni";
+        }
 	}
 	
 	@GetMapping("/lista-prenotazioni")
@@ -61,13 +69,44 @@ public class PrenotazioneController {
 			model.addAttribute("prenotazioni", prenotazioni);
 			return "lista-prenotazioni";
 		} catch (Exception e) {
-			return "";
+			return "redirect:/login";
 		}
 	}
 	
 	@PostMapping("/aggiorna")
-	public String aggiorna() {
-		return "";
-	}
+	public String aggiornaPrenotazione(
+            @RequestParam Long idPrenotazione,
+            @RequestParam Integer postiPrenotati,
+            RedirectAttributes redirectAttrs) {
+
+        try {
+            Prenotazione prenotazione = prenotazioneService.trovaPerId(idPrenotazione)
+                    .orElseThrow(() -> new Exception("Prenotazione non trovata"));
+
+            prenotazione.setPostiPrenotati(postiPrenotati);
+            prenotazioneService.aggiornaPrenotazione(prenotazione);
+
+            redirectAttrs.addFlashAttribute("successo", "Prenotazione aggiornata con successo!");
+        } catch (Exception e) {
+            redirectAttrs.addFlashAttribute("errore", "Errore durante l'aggiornamento: " + e.getMessage());
+        }
+
+        return "redirect:/prenotazione/lista-prenotazioni";
+    }
+	
+	@PostMapping("/elimina")
+    public String eliminaPrenotazione(
+            @RequestParam Long idPrenotazione,
+            RedirectAttributes redirectAttrs) {
+
+        try {
+            prenotazioneService.eliminaPrenotazione(idPrenotazione);
+            redirectAttrs.addFlashAttribute("successo", "Prenotazione eliminata con successo!");
+        } catch (Exception e) {
+            redirectAttrs.addFlashAttribute("errore", "Errore durante l'eliminazione: " + e.getMessage());
+        }
+
+        return "redirect:/prenotazione/lista-prenotazioni";
+    }
 
 }
