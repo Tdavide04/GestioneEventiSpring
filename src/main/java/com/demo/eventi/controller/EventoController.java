@@ -40,10 +40,10 @@ public class EventoController {
                 .orElseThrow(() -> new Exception("Utente non trovato"));
     }
 	
-	@GetMapping("/evento-lista")
+	@GetMapping("/attivi")
     public String listaEventiDisponibili(Model model, HttpSession session) {
         try {
-        	Utente utente = getLoggedUser(session);
+        	getLoggedUser(session);
             List<Evento> eventi = eventoService.trovaDisponibili();
             model.addAttribute("eventi", eventi);
             return "evento-lista";
@@ -51,6 +51,42 @@ public class EventoController {
             return "redirect:/login";
         }
     }
+	
+	@GetMapping("/scaduti")
+	public String listaEventiScaduti(Model model, HttpSession session) {
+	    try {
+	        getLoggedUser(session);
+	        List<Evento> eventi = eventoService.trovaEventiScaduti();
+	        model.addAttribute("eventi", eventi);
+	        return "evento-lista";
+	    } catch (Exception e) {
+	        return "redirect:/login";
+	    }
+	}
+
+	@GetMapping("/in-scadenza")
+	public String listaEventiInScadenza(Model model, HttpSession session) {
+	    try {
+	        getLoggedUser(session);
+	        List<Evento> eventi = eventoService.trovaEventiInScadenza();
+	        model.addAttribute("eventi", eventi);
+	        return "evento-lista";
+	    } catch (Exception e) {
+	        return "redirect:/login";
+	    }
+	}
+
+	@GetMapping("/recenti")
+	public String listaEventiRecenti(Model model, HttpSession session) {
+	    try {
+	        getLoggedUser(session);
+	        List<Evento> eventi = eventoService.trovaEventiRecenti();
+	        model.addAttribute("eventi", eventi);
+	        return "evento-lista";
+	    } catch (Exception e) {
+	        return "redirect:/login";
+	    }
+	}
 
     @GetMapping("/nuovo")
     public String mostraCreazioneEventoForm(Model model) {
@@ -59,6 +95,21 @@ public class EventoController {
         return "evento-form";
     }
     
+    //TODO DA USARE PER BARRA DI RICERCA
+    @GetMapping("/cerca")
+    public String cercaPerNome(@RequestParam("nome") String nome, Model model, HttpSession session) {
+        try {
+            getLoggedUser(session);
+            eventoService.trovaPerNome(nome).ifPresentOrElse(
+                evento -> model.addAttribute("eventi", List.of(evento)),
+                () -> model.addAttribute("error", "Nessun evento trovato con il nome: " + nome)
+            );
+            return "evento-lista";
+        } catch (Exception e) {
+            return "redirect:/login";
+        }
+    }
+
     @PostMapping
     public String creaEvento(@ModelAttribute Evento evento, 
                             @RequestParam("categoriaId") Long categoriaId,
