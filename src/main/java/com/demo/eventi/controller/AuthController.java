@@ -52,6 +52,9 @@ public class AuthController {
                 Utente utente = utenteService.trovaPerUsername(username).orElseThrow();
                 session.setAttribute("loggedUtente", username);
                 session.setAttribute("loggedRuolo", utente.getRuolo());
+                
+                // DEBUG
+                System.out.println("DEBUG: Utente loggato: " + username + " | Ruollo: " + utente.getRuolo());
 
                 return "redirect:/evento/evento-lista";
             } else {
