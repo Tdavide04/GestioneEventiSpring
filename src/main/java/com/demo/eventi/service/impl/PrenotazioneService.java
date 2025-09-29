@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import com.demo.eventi.model.Evento;
 import com.demo.eventi.model.Prenotazione;
 import com.demo.eventi.model.Utente;
 import com.demo.eventi.repository.PrenotazioneRepository;
@@ -26,10 +27,25 @@ public class PrenotazioneService implements IPrenotazioneService {
 	}
 
 	@Override
-	public Prenotazione creaPrenotazione(Prenotazione prenotazione) {
+	public Prenotazione salvaPrenotazione(Prenotazione prenotazione) {
 		return prenotazioneRepository.save(prenotazione);
 	}
 
+	@Override
+	public Prenotazione creaPrenotazione(Evento evento, Utente utente, Integer postiPrenotati) {
+		if(evento.getPostiDisponibili() > 0 && evento.getPostiDisponibili() + postiPrenotati >= 0) {
+			Prenotazione prenotazione = new Prenotazione(evento, utente, postiPrenotati);
+			try {
+				evento.setPostiOccupati(evento.getPostiDisponibili() + postiPrenotati);
+				salvaPrenotazione(prenotazione);
+			} catch (Exception e) {
+				//boh
+			}
+			
+		}
+		return null;
+	}
+		
 	@Override
 	public Prenotazione aggiornaPrenotazione(Prenotazione prenotazione) throws Exception {
 		if (!prenotazioneRepository.existsById(prenotazione.getIdPrenotazione())) {
@@ -58,4 +74,5 @@ public class PrenotazioneService implements IPrenotazioneService {
 		}
 		return prenotazioneRepository.findByUtente(utente);
 	}
+	
 }
