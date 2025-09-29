@@ -150,7 +150,9 @@ public class Evento {
 	
 	@Transient
 	public Integer getPostiDisponibili() {
-	    return this.postiTotali - this.postiOccupati;
+	    if (postiTotali == null || postiOccupati == null) return 0;
+	    return postiTotali - postiOccupati;
 	}
+
 	
 }

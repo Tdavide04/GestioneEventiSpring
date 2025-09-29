@@ -66,28 +66,33 @@
 
     <table class="table table-bordered table-hover table-striped">
         <thead class="table-dark text-center">
-            <tr>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Total places</th>
-                <th>Category</th>
-                <th>Price</th>
-                <th>Start</th>
-                <th>Finish</th>
-                <!-- Aggiungere una colonna Azioni -->
-            </tr>
-        </thead>
-        <tbody>
-            <tr th:each="evento : ${eventi}">
-                <td th:text="${evento.nome}">Name</td>
-                <td th:text="${evento.descrizione}">Description</td>
-                <td th:text="${evento.postiDisponibili}">0</td>
-                <td th:text="${evento.categoria.nome}">Category</td>
-                <td th:text="${evento.prezzo} + ' €'">0 €</td>
-                <td th:text="${#temporals.format(evento.dataInizio, 'dd/MM/yyyy')}">01/01/2025</td>
-                <td th:text="${#temporals.format(evento.dataFine, 'dd/MM/yyyy')}">02/01/2025</td>
-            </tr>
-        </tbody>
+    <tr>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Total places</th>
+        <th>Category</th>
+        <th>Price</th>
+        <th>Start</th>
+        <th>Finish</th>
+        <th>Actions</th>
+    </tr>
+</thead>
+<tbody>
+    <tr th:each="evento : ${eventi}">
+        <td th:text="${evento.nome}">Name</td>
+        <td th:text="${evento.descrizione}">Description</td>
+        <td th:text="${evento.postiDisponibili}">0</td>
+        <td th:text="${evento.categoria.nome}">Category</td>
+        <td th:text="${evento.prezzo} + ' €'">0 €</td>
+        <td th:text="${#temporals.format(evento.dataInizio, 'dd/MM/yyyy')}">01/01/2025</td>
+        <td th:text="${#temporals.format(evento.dataFine, 'dd/MM/yyyy')}">02/01/2025</td>
+        <td class="text-center">
+            <a th:href="@{/prenotazione/nuova(eventoId=${evento.idEvento})}" 
+               class="btn btn-sm btn-success">Prenota</a>
+        </td>
+    </tr>
+</tbody>
+
     </table>
 </div>
 
