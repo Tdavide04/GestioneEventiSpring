@@ -39,14 +39,18 @@ public class Prenotazione {
     public Prenotazione() {
 	}
 
-	public Prenotazione(Long idPrenotazione, Evento evento, Utente utente, Integer postiPrenotati,
-			LocalDate dataCreazione) {
+	public Prenotazione(Long idPrenotazione, Evento evento, Utente utente, Integer postiPrenotati) {
 		super();
 		this.idPrenotazione = idPrenotazione;
 		this.evento = evento;
 		this.utente = utente;
 		this.postiPrenotati = postiPrenotati;
-		this.dataCreazione = dataCreazione;
+		
+	}public Prenotazione(Evento evento, Utente utente, Integer postiPrenotati) {
+		super();
+		this.evento = evento;
+		this.utente = utente;
+		this.postiPrenotati = postiPrenotati;
 	}
 
 	public Long getIdPrenotazione() {
