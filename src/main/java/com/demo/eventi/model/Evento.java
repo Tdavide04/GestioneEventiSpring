@@ -25,7 +25,7 @@ public class Evento {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long idEvento;
-	@Column(name = "nome", nullable = false)
+	@Column(name = "nome", unique = true, nullable = false)
 	private String nome;
 	@Column(name = "descrizione", nullable = false, columnDefinition = "TEXT")
 	private String descrizione;
