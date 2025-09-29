@@ -1,22 +1,40 @@
+
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>New Category</title>
-    <link rel="stylesheet" href="/css/style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>New Category</title>
+<link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-<h1>New Category</h1>
+	<div class="header">Manage Categories</div>
 
-<form th:action="@{/categoria/crea}" th:object="${categoria}" method="post">
-    <label>Category name:</label>
-    <input type="text" th:field="*{nome}" required />
-    <br/>
-    <label>Category description:</label>
-    <input type="text" th:field="*{descrizione}" required />
-    <br/>
-    <button type="submit">Create Category</button>
-</form>
+	<div class="container">
+		<h2>Create a New Category</h2>
 
-<a th:href="@{/evento/evento-lista}">Go back to Events</a>
+		<div th:if="${success}" style="color: green;" th:text="${success}"></div>
+		<div th:if="${error}" style="color: red;" th:text="${error}"></div>
+
+		<form th:action="@{/categoria/crea}" th:object="${categoria}"
+			method="post">
+			<label class="register-form-field"> Category name: <input
+				type="text" th:field="*{nome}" required />
+			</label> <label class="register-form-field"> Category description: <input
+				type="text" th:field="*{descrizione}" required />
+			</label>
+
+			<button type="submit">Create Category</button>
+		</form>
+
+		<p>
+			<a th:href="@{/evento/evento-lista}">Go back to Events</a>
+		</p>
+	</div>
+
+	<div class="footer">
+		<p>&copy; 2025 - Event Management</p>
+	</div>
 </body>
 </html>
+
