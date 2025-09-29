@@ -48,6 +48,7 @@ public class EventoController {
         	getLoggedUser(session);
             List<Evento> eventi = eventoService.trovaDisponibili();
             model.addAttribute("eventi", eventi);
+            model.addAttribute("loggedRuolo", session.getAttribute("loggedRuolo"));
             return "evento-lista";
         } catch (Exception e) {
             return "redirect:/login";

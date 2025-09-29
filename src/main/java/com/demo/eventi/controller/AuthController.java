@@ -56,7 +56,7 @@ public class AuthController {
                 // DEBUG
                 System.out.println("DEBUG: Utente loggato: " + username + " | Ruollo: " + utente.getRuolo());
 
-                return "redirect:/evento/evento-lista";
+                return "redirect:/evento/attivi";
             } else {
                 redirectAttrs.addFlashAttribute("error", "Credenziali errate");
                 return "redirect:/login";
