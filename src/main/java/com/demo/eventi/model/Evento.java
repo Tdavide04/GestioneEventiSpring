@@ -16,6 +16,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 
 @Entity
 @Table(name = "evento")
@@ -145,6 +146,11 @@ public class Evento {
 	}
 	public void setPrenotazioni(List<Prenotazione> prenotazioni) {
 		this.prenotazioni = prenotazioni;
+	}
+	
+	@Transient
+	public Integer getPostiDisponibili() {
+	    return this.postiTotali - this.postiOccupati;
 	}
 	
 }
