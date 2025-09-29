@@ -1,6 +1,8 @@
 package com.demo.eventi.service.impl;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -47,14 +49,39 @@ public class EventoService implements IEventoService {
 	public Optional<Evento> trovaPerId(Long id) {
 		return eventoRepository.findById(id);
 	}
+	
+	@Override
+	public Optional<Evento> trovaPerNome(String nome) {
+		return eventoRepository.findByNome(nome);
+	}
 
 	@Override
 	public List<Evento> trovaDisponibili() {
 		return eventoRepository.findByDataFineAfter(LocalDate.now());
 	}
 
-	@Override
-	public List<Evento> trovaPerDataCreazione(LocalDate data) {
-		return eventoRepository.findByDataCreazione(data);
-	}
+    @Override
+    public List<Evento> trovaPerDataCreazione(LocalDate data) {
+        LocalDateTime startOfDay = data.atStartOfDay();
+        LocalDateTime endOfDay = data.atTime(LocalTime.MAX);
+        return eventoRepository.findByDataCreazioneBetween(startOfDay, endOfDay);
+    }
+
+    @Override
+    public List<Evento> trovaEventiScaduti() {
+        return eventoRepository.findByDataFineBefore(LocalDate.now());
+    }
+
+    @Override
+    public List<Evento> trovaEventiInScadenza() {
+        LocalDate oggi = LocalDate.now();
+        LocalDate limite = oggi.plusDays(3);
+        return eventoRepository.findByDataFineBetween(oggi, limite);
+    }
+
+    @Override
+    public List<Evento> trovaEventiRecenti() {
+        LocalDateTime limite = LocalDateTime.now().minusDays(3);
+        return eventoRepository.findByDataCreazioneAfter(limite);
+    }
 }

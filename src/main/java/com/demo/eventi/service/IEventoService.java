@@ -14,9 +14,16 @@ public interface IEventoService {
 	void eliminaEvento(Long id) throws Exception;
 
 	Optional<Evento> trovaPerId(Long id);
+	
+	Optional<Evento> trovaPerNome(String nome);
 
 	List<Evento> trovaDisponibili();
 
 	List<Evento> trovaPerDataCreazione(LocalDate data);
+	
+	List<Evento> trovaEventiScaduti();
 
+	List<Evento> trovaEventiInScadenza();
+
+	List<Evento> trovaEventiRecenti();
 }
