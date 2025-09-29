@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>Events - Homepage</title>
@@ -38,12 +39,32 @@
 </head>
 <body>
 
+<!-- Navbar -->
 <nav class="navbar navbar-expand-lg">
     <div class="container-fluid">
         <a class="navbar-brand" href="#">Event Management</a>
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav ms-auto">
-                <li class="nav-item"><a class="nav-link" th:href="@{/logout}">Logout</a></li>
+
+                <!-- ORGANIZZATORE o ADMIN possono creare eventi -->
+                <li class="nav-item" sec:authorize="hasAnyRole('ORGANIZZATORE','ADMIN')">
+                    <a class="nav-link" th:href="@{/evento/nuovo}">Add Event</a>
+                </li>
+
+                <!-- ORGANIZZATORE o ADMIN possono creare categorie -->
+                <li class="nav-item" sec:authorize="hasAnyRole('ORGANIZZATORE','ADMIN')">
+                    <a class="nav-link" th:href="@{/categoria/nuova}">Create Category</a>
+                </li>
+
+                <!-- Solo ADMIN può gestire utenti -->
+                <li class="nav-item" sec:authorize="hasRole('ADMIN')">
+                    <a class="nav-link" th:href="@{/admin/lista-utenti}">Manage Users</a>
+                </li>
+
+                <!-- Logout visibile a tutti -->
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/logout}">Logout</a>
+                </li>
             </ul>
         </div>
     </div>
@@ -56,41 +77,36 @@
     <!-- Messaggi flash -->
     <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
     <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
-    
-    <div th:if="${session.loggedUtente != null}">
-    <div th:if="${#authentication == null or #authorization.expression('hasRole(''ADMIN'')')}" >
-    </div>
-</div>
 
+    <!-- Tabella eventi -->
     <table class="table table-bordered table-hover table-striped">
         <thead class="table-dark text-center">
-    <tr>
-        <th>Name</th>
-        <th>Description</th>
-        <th>Total places</th>
-        <th>Category</th>
-        <th>Price</th>
-        <th>Start</th>
-        <th>Finish</th>
-        <th>Actions</th>
-    </tr>
-</thead>
-<tbody>
-    <tr th:each="evento : ${eventi}">
-        <td th:text="${evento.nome}">Name</td>
-        <td th:text="${evento.descrizione}">Description</td>
-        <td th:text="${evento.postiDisponibili}">0</td>
-        <td th:text="${evento.categoria.nome}">Category</td>
-        <td th:text="${evento.prezzo} + ' €'">0 €</td>
-        <td th:text="${#temporals.format(evento.dataInizio, 'dd/MM/yyyy')}">01/01/2025</td>
-        <td th:text="${#temporals.format(evento.dataFine, 'dd/MM/yyyy')}">02/01/2025</td>
-        <td class="text-center">
-            <a th:href="@{/prenotazione/nuova(eventoId=${evento.idEvento})}" 
-               class="btn btn-sm btn-success">Prenota</a>
-        </td>
-    </tr>
-</tbody>
-
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Total places</th>
+                <th>Category</th>
+                <th>Price</th>
+                <th>Start</th>
+                <th>Finish</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="evento : ${eventi}">
+                <td th:text="${evento.nome}">Name</td>
+                <td th:text="${evento.descrizione}">Description</td>
+                <td th:text="${evento.postiDisponibili}">0</td>
+                <td th:text="${evento.categoria.nome}">Category</td>
+                <td th:text="${evento.prezzo} + ' €'">0 €</td>
+                <td th:text="${#temporals.format(evento.dataInizio, 'dd/MM/yyyy')}">01/01/2025</td>
+                <td th:text="${#temporals.format(evento.dataFine, 'dd/MM/yyyy')}">02/01/2025</td>
+                <td class="text-center">
+                    <a th:href="@{/prenotazione/nuova(eventoId=${evento.idEvento})}" 
+                       class="btn btn-sm btn-success">Prenota</a>
+                </td>
+            </tr>
+        </tbody>
     </table>
 </div>
 
