@@ -50,19 +50,19 @@ footer {
 
 					<!-- ORGANIZZATORE o ADMIN possono creare eventi -->
 					<li class="nav-item"
-						th:if='${#strings.equals(loggedRuolo,"ORGANIZZATORE") or #strings.equals(loggedRuolo,"ADMIN")}'>
+						th:if="${#strings.equals(loggedRuolo,'ORGANIZZATORE') or #strings.equals(loggedRuolo,'ADMIN')}">
 						<a class="nav-link" th:href="@{/evento/nuovo}">Add Event</a>
 					</li>
 
 					<!-- ORGANIZZATORE o ADMIN possono creare categorie -->
 					<li class="nav-item"
-						th:if='${#strings.equals(loggedRuolo,"ORGANIZZATORE") or #strings.equals(loggedRuolo,"ADMIN")}'>
+						th:if="${#strings.equals(loggedRuolo,'ORGANIZZATORE') or #strings.equals(loggedRuolo,'ADMIN')}">
 						<a class="nav-link" th:href="@{/categoria/nuova}">Create
 							Category</a>
 					</li>
 
 					<!-- Solo ADMIN può gestire utenti -->
-					<li class="nav-item" th:if='${#strings.equals(loggedRuolo,"ADMIN")}'>
+					<li class="nav-item" th:if="${#strings.equals(loggedRuolo,'ADMIN')}">
 						<a class="nav-link" th:href="@{/admin/lista-utenti}">Manage
 							Users</a>
 					</li>

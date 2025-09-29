@@ -137,7 +137,7 @@ public class EventoController {
 
             eventoService.creaEvento(evento);
             redirectAttrs.addFlashAttribute("success", "Evento creato con successo!");
-            return "redirect:/evento/evento-lista";
+            return "redirect:/evento/attivi";
         } catch (Exception e) {
         	e.printStackTrace(); // DEBUG: Per vedere l'errore completo
             redirectAttrs.addFlashAttribute("error", "Errore durante la creazione dell'evento: " + e.getMessage());
