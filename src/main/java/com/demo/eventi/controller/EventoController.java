@@ -1,6 +1,7 @@
 package com.demo.eventi.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.demo.eventi.model.Categoria;
@@ -115,6 +117,18 @@ public class EventoController {
                             @RequestParam("categoriaId") Long categoriaId,
                             HttpSession session, 
                             RedirectAttributes redirectAttrs) {
+    	
+    	// DEBUG: Stampa quello che arriva
+        System.out.println("=== DEBUG EVENTO ===");
+        System.out.println("Nome: " + evento.getNome());
+        System.out.println("Descrizione: " + evento.getDescrizione());
+        System.out.println("Posti totali: " + evento.getPostiTotali());
+        System.out.println("Prezzo: " + evento.getPrezzo());
+        System.out.println("Data inizio: " + evento.getDataInizio());
+        System.out.println("Data fine: " + evento.getDataFine());
+        System.out.println("CategoriaId parameter: " + categoriaId);
+        System.out.println("Categoria object: " + evento.getCategoria());
+        
         try {
             Categoria categoria = categoriaService.trovaPerId(categoriaId)
                                  .orElseThrow(() -> new Exception("Categoria non valida"));
@@ -124,8 +138,16 @@ public class EventoController {
             redirectAttrs.addFlashAttribute("success", "Evento creato con successo!");
             return "redirect:/evento/evento-lista";
         } catch (Exception e) {
+        	e.printStackTrace(); // DEBUG: Per vedere l'errore completo
             redirectAttrs.addFlashAttribute("error", "Errore durante la creazione dell'evento: " + e.getMessage());
             return "redirect:/evento/nuovo";
         }
+    }
+    
+    @PostMapping("/test")
+    @ResponseBody
+    public String testEvento(@ModelAttribute Evento evento, 
+                            @RequestParam Map<String, String> allParams) {
+        return "Evento: " + evento.toString() + "\nParametri: " + allParams.toString();
     }
 }
