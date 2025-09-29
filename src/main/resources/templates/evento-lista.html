@@ -79,43 +79,45 @@ footer {
 
 	<div class="container mt-4">
 
-		<h1 class="mb-4">Event list</h1>
+    <h1 class="mb-4">Event list</h1>
 
-		<!-- Messaggi flash -->
-		<div th:if="${success}" class="alert alert-success"
-			th:text="${success}"></div>
-		<div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
-				
-		<!-- Tabella eventi -->
-		<table class="table table-bordered table-hover table-striped">
-			<thead class="table-dark text-center">
-				<tr>
-					<th>Name</th>
-					<th>Description</th>
-					<th>Total places</th>
-					<th>Category</th>
-					<th>Price</th>
-					<th>Start</th>
-					<th>Finish</th>
-					<th>Actions</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr th:each="evento : ${eventi}">
-					<td th:text="${evento.nome}">Name</td>
-					<td th:text="${evento.descrizione}">Description</td>
-					<td th:text="${evento.postiDisponibili}">0</td>
-					<td th:text="${evento.categoria.nome}">Category</td>
-					<td th:text="${evento.prezzo} + ' €'">0 €</td>
-					<td th:text="${#temporals.format(evento.dataInizio, 'dd/MM/yyyy')}">01/01/2025</td>
-					<td th:text="${#temporals.format(evento.dataFine, 'dd/MM/yyyy')}">02/01/2025</td>
-					<td class="text-center"><a
-						th:href="@{/prenotazione/nuova(eventoId=${evento.idEvento})}"
-						class="btn btn-sm btn-success">Prenota</a></td>
-				</tr>
-			</tbody>
-		</table>
-	</div>
+    <!-- Messaggi flash -->
+    <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
+    <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+
+    <!-- Contenitore scrollabile -->
+    <div style="max-height: 400px; overflow-y: auto; border: 1px solid #ccc; border-radius: 8px;">
+        <table class="table table-bordered table-hover table-striped mb-0">
+            <thead class="table-dark text-center">
+                <tr>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Total places</th>
+                    <th>Category</th>
+                    <th>Price</th>
+                    <th>Start</th>
+                    <th>Finish</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="evento : ${eventi}">
+                    <td th:text="${evento.nome}">Name</td>
+                    <td th:text="${evento.descrizione}">Description</td>
+                    <td th:text="${evento.postiDisponibili}">0</td>
+                    <td th:text="${evento.categoria.nome}">Category</td>
+                    <td th:text="${evento.prezzo} + ' €'">0 €</td>
+                    <td th:text="${#temporals.format(evento.dataInizio, 'dd/MM/yyyy')}">01/01/2025</td>
+                    <td th:text="${#temporals.format(evento.dataFine, 'dd/MM/yyyy')}">02/01/2025</td>
+                    <td class="text-center">
+                        <a th:href="@{/prenotazione/nuova(eventoId=${evento.idEvento})}"
+                           class="btn btn-sm btn-success">Prenota</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
 
 	<footer>
 		<p>&copy; 2025 - Event Management</p>
