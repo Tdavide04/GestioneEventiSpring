@@ -48,6 +48,10 @@ footer {
 			<div class="collapse navbar-collapse">
 				<ul class="navbar-nav ms-auto">
 					
+					<!-- Link alle prenotazioni dell'utente -->
+					<li class="nav-item">
+						<a class="nav-link" th:href="@{/mie-prenotazioni}">Le mie prenotazioni</a>
+					</li>
 
 					<!-- ORGANIZZATORE o ADMIN possono creare eventi -->
 					<li class="nav-item"
@@ -58,20 +62,16 @@ footer {
 					<!-- ORGANIZZATORE o ADMIN possono creare categorie -->
 					<li class="nav-item"
 						th:if="${#strings.equals(loggedRuolo,'ORGANIZZATORE') or #strings.equals(loggedRuolo,'ADMIN')}">
-						<a class="nav-link" th:href="@{/categoria/nuova}">Create
-							Category</a>
+						<a class="nav-link" th:href="@{/categoria/nuova}">Create Category</a>
 					</li>
 
 					<!-- Solo ADMIN può gestire utenti -->
 					<li class="nav-item" th:if="${#strings.equals(loggedRuolo,'ADMIN')}">
-						<a class="nav-link" th:href="@{/admin/lista-utenti}">Manage
-							Users</a>
+						<a class="nav-link" th:href="@{/admin/lista-utenti}">Manage Users</a>
 					</li>
-
 
 					<!-- Logout sempre visibile -->
-					<li class="nav-item"><a class="nav-link" th:href="@{/logout}">Logout</a>
-					</li>
+					<li class="nav-item"><a class="nav-link" th:href="@{/logout}">Logout</a></li>
 				</ul>
 			</div>
 		</div>
@@ -110,7 +110,7 @@ footer {
                     <td th:text="${#temporals.format(evento.dataInizio, 'dd/MM/yyyy')}">01/01/2025</td>
                     <td th:text="${#temporals.format(evento.dataFine, 'dd/MM/yyyy')}">02/01/2025</td>
                     <td class="text-center">
-                        <a th:href="@{/prenotazione/nuova(eventoId=${evento.idEvento})}"
+                        <a th:href="@{/prenotazione/crea-prenotazione(eventoId=${evento.idEvento})}"
                            class="btn btn-sm btn-success">Prenota</a>
                     </td>
                 </tr>

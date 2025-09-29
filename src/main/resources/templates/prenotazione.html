@@ -26,12 +26,17 @@
         <p><strong>Prezzo:</strong> <span th:text="${evento.prezzo} + ' €'"></span></p>
         <p><strong>Posti disponibili:</strong> <span th:text="${evento.postiDisponibili}"></span></p>
 
-        <form th:action="@{/prenotazione/conferma}" method="post">
-            <input type="hidden" name="eventoId" th:value="${evento.idEvento}" />
+        <!-- Form corretto -->
+        <form th:action="@{/prenotazione/crea-prenotazione}" method="post">
+            <!-- Parametro corretto: idEvento -->
+            <input type="hidden" name="idEvento" th:value="${evento.idEvento}" />
+
             <div class="mb-3">
                 <label class="form-label">Numero posti</label>
-                <input type="number" name="postiRichiesti" class="form-control" min="1" required />
+                <!-- Parametro corretto: postiPrenotati -->
+                <input type="number" name="postiPrenotati" class="form-control" min="1" required />
             </div>
+
             <button type="submit" class="btn btn-success">Conferma Prenotazione</button>
             <a th:href="@{/}" class="btn btn-secondary ms-2">Annulla</a>
         </form>

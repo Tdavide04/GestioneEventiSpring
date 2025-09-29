@@ -40,7 +40,7 @@ public class PrenotazioneController {
 		return utenteService.trovaPerUsername(username).orElseThrow(() -> new Exception("Utente non trovato"));
 	}
 
-	@PostMapping("/crea-prenotazione")
+	@GetMapping("/crea-prenotazione")
 	public String creaPrenotazione(@RequestParam Long idEvento, @RequestParam Integer postiPrenotati,
 			HttpSession session, RedirectAttributes redirectAttrs) {
 
