@@ -32,7 +32,7 @@ public class UtenteController {
         }
 
         model.addAttribute("utenti", utenteService.trovaTutti());
-        return "utenti-lista";
+        return "gestione-utente";
     }
 
     @GetMapping("/modifica/{id}")
@@ -48,7 +48,7 @@ public class UtenteController {
         Optional<Utente> utenteOpt = utenteService.trovaPerId(id);
         if (utenteOpt.isPresent()) {
             model.addAttribute("utente", utenteOpt.get());
-            return "utenti-modifica";
+            return "gestione-utente";
         } else {
             redirectAttrs.addFlashAttribute("error", "Utente non trovato");
             return "redirect:/utenti";
