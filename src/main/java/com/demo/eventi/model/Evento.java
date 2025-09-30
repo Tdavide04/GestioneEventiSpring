@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -44,7 +45,7 @@ public class Evento {
 	private LocalDate dataFine;
 	@Column(name = "data_creazione", nullable = false, updatable = false)
 	private LocalDateTime dataCreazione;
-	@OneToMany(mappedBy = "evento")
+	@OneToMany(mappedBy = "evento", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Prenotazione> prenotazioni;
 	
 	@PrePersist
