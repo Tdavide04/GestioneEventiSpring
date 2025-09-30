@@ -19,6 +19,6 @@ public interface IPrenotazioneService {
 
 	Prenotazione salvaPrenotazione(Prenotazione prenotazione);
 
-	Prenotazione creaPrenotazione(Evento evento, Utente utente, Integer postiPrenotati);
+	Prenotazione creaPrenotazione(Evento evento, Utente utente, Integer postiPrenotati) throws Exception;
 
 }
