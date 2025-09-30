@@ -82,13 +82,13 @@ public class PrenotazioneController {
 	}
 
 	
-	@GetMapping("/lista-prenotazioni")
+	@GetMapping("/mie-prenotazioni")
 	public String listaPrenotazioni(Model model, HttpSession session) {
 		try {
 			Utente utente = getLoggedUser(session);
 			List<Prenotazione> prenotazioni = prenotazioneService.trovaPerUtente(utente);
 			model.addAttribute("prenotazioni", prenotazioni);
-			return "lista-prenotazioni";
+			return "mie-prenotazioni";
 		} catch (Exception e) {
 			return "redirect:/login";
 		}
