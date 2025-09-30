@@ -8,9 +8,11 @@
 <body>
 <nav class="navbar navbar-expand-lg" style="background-color: maroon;">
     <div class="container-fluid">
-        <a class="navbar-brand text-white" href="/">Event Management</a>
+        <a class="navbar-brand text-white" href="/evento/attivi">Event Management</a>
         <ul class="navbar-nav ms-auto">
-            <li class="nav-item"><a class="nav-link text-white" th:href="@{/logout}">Logout</a></li>
+            <li class="nav-item">
+                <a class="nav-link text-white" th:href="@{/logout}">Logout</a>
+            </li>
         </ul>
     </div>
 </nav>
@@ -18,13 +20,18 @@
 <div class="container mt-5">
     <h1>Le mie prenotazioni</h1>
 
-    <table class="table table-striped mt-3">
-        <thead class="table-dark text-center">
+    <div th:if="${#lists.isEmpty(prenotazioni)}" class="alert alert-info mt-3">
+        Non hai ancora effettuato prenotazioni.
+    </div>
+
+    <table th:if="${!#lists.isEmpty(prenotazioni)}" class="table table-striped mt-3 text-center">
+        <thead class="table-dark">
             <tr>
                 <th>Evento</th>
-                <th>Data</th>
+                <th>Data Evento</th>
                 <th>Posti Prenotati</th>
                 <th>Prezzo Totale</th>
+                <th>Data Prenotazione</th>
                 <th>Azioni</th>
             </tr>
         </thead>
@@ -32,15 +39,22 @@
             <tr th:each="pren : ${prenotazioni}">
                 <td th:text="${pren.evento.nome}">Nome Evento</td>
                 <td th:text="${#temporals.format(pren.evento.dataInizio, 'dd/MM/yyyy')}">01/01/2025</td>
-                <td th:text="${pren.numeroPosti}">2</td>
-                <td th:text="${pren.numeroPosti * pren.evento.prezzo} + ' €'">40 €</td>
+                <td th:text="${pren.postiPrenotati}">2</td>
+                <td th:text="${pren.postiPrenotati * pren.evento.prezzo} + ' €'">40 €</td>
+                <td th:text="${#temporals.format(pren.dataCreazione, 'dd/MM/yyyy')}">29/09/2025</td>
                 <td>
-                    <a th:href="@{/prenotazione/cancella(id=${pren.idPrenotazione})}" 
-                       class="btn btn-sm btn-danger">Annulla</a>
+                    <form th:action="@{/prenotazione/elimina}" method="post" style="display:inline">
+                        <input type="hidden" name="idPrenotazione" th:value="${pren.idPrenotazione}" />
+                        <button type="submit" class="btn btn-sm btn-danger"
+                                onclick="return confirm('Sei sicuro di voler annullare questa prenotazione?');">
+                            Annulla
+                        </button>
+                    </form>
                 </td>
             </tr>
         </tbody>
     </table>
 </div>
+
 </body>
 </html>

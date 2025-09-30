@@ -72,7 +72,7 @@ public class PrenotazioneController {
 	        } else {
 	            redirectAttrs.addFlashAttribute("errore", "Impossibile creare la prenotazione.");
 	        }
-	        return "redirect:/mie-prenotazioni"; // meglio portare l’utente alla lista delle sue prenotazioni
+	        return "redirect:/prenotazione/mie-prenotazioni"; // meglio portare l’utente alla lista delle sue prenotazioni
 
 	    } catch (Exception e) {
 	        redirectAttrs.addFlashAttribute("errore",
