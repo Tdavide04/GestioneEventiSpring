@@ -1,5 +1,6 @@
 package com.demo.eventi.service.impl;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,14 +33,18 @@ public class PrenotazioneService implements IPrenotazioneService {
 	}
 
 	@Override
-	public Prenotazione creaPrenotazione(Evento evento, Utente utente, Integer postiPrenotati) {
-		if(evento.getPostiDisponibili() > 0 && evento.getPostiDisponibili() + postiPrenotati >= 0) {
-			Prenotazione prenotazione = new Prenotazione(evento, utente, postiPrenotati);
-			try {
-				evento.setPostiOccupati(evento.getPostiOccupati() + postiPrenotati);
-				salvaPrenotazione(prenotazione);
-			} catch (Exception e) {
-				//boh
+	public Prenotazione creaPrenotazione(Evento evento, Utente utente, Integer postiPrenotati) throws Exception {
+		if(evento.getPostiDisponibili() > 0 && evento.getPostiDisponibili() - postiPrenotati >= 0) {
+			if (evento.getDataFine().isBefore(LocalDate.now())) {
+				Prenotazione prenotazione = new Prenotazione(evento, utente, postiPrenotati);
+				try {
+					evento.setPostiOccupati(evento.getPostiOccupati() + postiPrenotati);
+					salvaPrenotazione(prenotazione);
+				} catch (Exception e) {
+					throw new Exception(e.getMessage());
+				}
+			} else {
+				throw new Exception("L'evento è gia terminato");
 			}
 			
 		}
