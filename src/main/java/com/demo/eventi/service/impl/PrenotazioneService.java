@@ -36,7 +36,7 @@ public class PrenotazioneService implements IPrenotazioneService {
 		if(evento.getPostiDisponibili() > 0 && evento.getPostiDisponibili() + postiPrenotati >= 0) {
 			Prenotazione prenotazione = new Prenotazione(evento, utente, postiPrenotati);
 			try {
-				evento.setPostiOccupati(evento.getPostiDisponibili() + postiPrenotati);
+				evento.setPostiOccupati(evento.getPostiOccupati() + postiPrenotati);
 				salvaPrenotazione(prenotazione);
 			} catch (Exception e) {
 				//boh
