@@ -77,7 +77,7 @@ public class PrenotazioneController {
 	    } catch (Exception e) {
 	        redirectAttrs.addFlashAttribute("errore",
 	                "Errore durante la creazione della prenotazione: " + e.getMessage());
-	        return "redirect:/mie-prenotazioni";
+	        return "redirect:/prenotazione/mie-prenotazioni";
 	    }
 	}
 
@@ -112,7 +112,7 @@ public class PrenotazioneController {
             redirectAttrs.addFlashAttribute("errore", "Errore durante l'aggiornamento: " + e.getMessage());
         }
 
-        return "redirect:/prenotazione/lista-prenotazioni";
+        return "redirect:/prenotazione/mie-prenotazioni";
     }
 	
 	@PostMapping("/elimina")
@@ -127,7 +127,7 @@ public class PrenotazioneController {
             redirectAttrs.addFlashAttribute("errore", "Errore durante l'eliminazione: " + e.getMessage());
         }
 
-        return "redirect:/prenotazione/lista-prenotazioni";
+        return "redirect:/prenotazione/mie-prenotazioni";
     }
 
 }
