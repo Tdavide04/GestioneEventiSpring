@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
@@ -12,116 +13,158 @@ body {
 }
 
 .navbar {
-	background-color: maroon;
+background-color: maroon;
 }
 
 .navbar-brand, .nav-link {
-	color: white !important;
-	font-weight: 500;
+color: white !important;
+font-weight: 500;
 }
 
 h1 {
-	font-weight: bold;
-	color: maroon;
+font-weight: bold;
+color: maroon;
 }
 
 footer {
-	height: 50px;
-	margin-top: 60px;
-	background-color: maroon;
-	color: white;
-	padding: 15px 0;
-	text-align: center;
-	position: fixed;
-	bottom: 0;
-	left: 0;
-	width: 100%;
+height: 50px;
+margin-top: 60px;
+background-color: maroon;
+color: white;
+padding: 15px 0;
+text-align: center;
+position: fixed;
+bottom: 0;
+left: 0;
+width: 100%;
 }
-</style>
+
+/* Dropdown personalizzato */
+.dropdown {
+position: relative;
+}
+.dropdown-menu {
+display: none;
+position: absolute;
+top: 100%;
+left: 0;
+background-color: maroon;
+list-style: none;
+padding: 0;
+margin: 0;
+border-radius: 4px;
+min-width: 160px;
+z-index: 1000;
+}
+.dropdown:hover .dropdown-menu {
+display: block;
+}
+.dropdown-item {
+display: block;
+padding: 8px 12px;
+color: white;
+text-decoration: none;
+}
+.dropdown-item:hover {
+background-color: #a30000;
+} </style>
+
 </head>
 <body>
 
-	<!-- Navbar -->
-	<nav class="navbar navbar-expand-lg">
-		<div class="container-fluid">
-			<a class="navbar-brand" href="#">Event Management</a>
-			<div class="collapse navbar-collapse">
-				<ul class="navbar-nav ms-auto">
-					
-					<!-- Link alle prenotazioni dell'utente -->
-					<li class="nav-item">
-						<a class="nav-link" th:href="@{/mie-prenotazioni}">Le mie prenotazioni</a>
-					</li>
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg">
+	<div class="container-fluid">
+		<a class="navbar-brand" href="#">Event Management</a>
+		<div class="collapse navbar-collapse">
+			<ul class="navbar-nav ms-auto">
+				
+				<!-- Link alle prenotazioni dell'utente -->
+				<li class="nav-item">
+					<a class="nav-link" th:href="@{/mie-prenotazioni}">Le mie prenotazioni</a>
+				</li>
 
-					<!-- ORGANIZZATORE o ADMIN possono creare eventi -->
-					<li class="nav-item"
-						th:if="${#strings.equals(loggedRuolo,'ORGANIZZATORE') or #strings.equals(loggedRuolo,'ADMIN')}">
-						<a class="nav-link" th:href="@{/evento/nuovo}">Add Event</a>
-					</li>
+				<!-- Dropdown Eventi -->
+				<li class="nav-item dropdown">
+					<a href="#" class="nav-link">Eventi ▾</a>
+					<ul class="dropdown-menu">
+						<li><a class="dropdown-item" th:href="@{/evento/attivi}">Attivi</a></li>
+						<li><a class="dropdown-item" th:href="@{/evento/scaduti}">Scaduti</a></li>
+						<li><a class="dropdown-item" th:href="@{/evento/in-scadenza}">In scadenza</a></li>
+						<li><a class="dropdown-item" th:href="@{/evento/recenti}">Recenti</a></li>
+					</ul>
+				</li>
 
-					<!-- ORGANIZZATORE o ADMIN possono creare categorie -->
-					<li class="nav-item"
-						th:if="${#strings.equals(loggedRuolo,'ORGANIZZATORE') or #strings.equals(loggedRuolo,'ADMIN')}">
-						<a class="nav-link" th:href="@{/categoria/nuova}">Create Category</a>
-					</li>
+				<!-- ORGANIZZATORE o ADMIN possono creare eventi -->
+				<li class="nav-item"
+					th:if="${#strings.equals(loggedRuolo,'ORGANIZZATORE') or #strings.equals(loggedRuolo,'ADMIN')}">
+					<a class="nav-link" th:href="@{/evento/nuovo}">Add Event</a>
+				</li>
 
-					<!-- Solo ADMIN può gestire utenti -->
-					<li class="nav-item" th:if="${#strings.equals(loggedRuolo,'ADMIN')}">
-						<a class="nav-link" th:href="@{/admin/lista-utenti}">Manage Users</a>
-					</li>
+				<!-- ORGANIZZATORE o ADMIN possono creare categorie -->
+				<li class="nav-item"
+					th:if="${#strings.equals(loggedRuolo,'ORGANIZZATORE') or #strings.equals(loggedRuolo,'ADMIN')}">
+					<a class="nav-link" th:href="@{/categoria/nuova}">Create Category</a>
+				</li>
 
-					<!-- Logout sempre visibile -->
-					<li class="nav-item"><a class="nav-link" th:href="@{/logout}">Logout</a></li>
-				</ul>
-			</div>
+				<!-- Solo ADMIN può gestire utenti -->
+				<li class="nav-item" th:if="${#strings.equals(loggedRuolo,'ADMIN')}">
+					<a class="nav-link" th:href="@{/admin/lista-utenti}">Manage Users</a>
+				</li>
+
+				<!-- Logout sempre visibile -->
+				<li class="nav-item"><a class="nav-link" th:href="@{/logout}">Logout</a></li>
+			</ul>
 		</div>
-	</nav>
+	</div>
+</nav>
 
-	<div class="container mt-4">
+<div class="container mt-4">
 
-    <h1 class="mb-4">Event list</h1>
+<h1 class="mb-4">Event list</h1>
 
-    <!-- Messaggi flash -->
-    <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
-    <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+<!-- Messaggi flash -->
+<div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
+<div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
 
-    <!-- Contenitore scrollabile -->
-    <div style="max-height: 400px; overflow-y: auto; border: 1px solid #ccc; border-radius: 8px;">
-        <table class="table table-bordered table-hover table-striped mb-0">
-            <thead class="table-dark text-center">
-                <tr>
-                    <th>Name</th>
-                    <th>Description</th>
-                    <th>Total places</th>
-                    <th>Category</th>
-                    <th>Price</th>
-                    <th>Start</th>
-                    <th>Finish</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="evento : ${eventi}">
-                    <td th:text="${evento.nome}">Name</td>
-                    <td th:text="${evento.descrizione}">Description</td>
-                    <td th:text="${evento.postiDisponibili}">0</td>
-                    <td th:text="${evento.categoria.nome}">Category</td>
-                    <td th:text="${evento.prezzo} + ' €'">0 €</td>
-                    <td th:text="${#temporals.format(evento.dataInizio, 'dd/MM/yyyy')}">01/01/2025</td>
-                    <td th:text="${#temporals.format(evento.dataFine, 'dd/MM/yyyy')}">02/01/2025</td>
-                    <td class="text-center">
-                        <a th:href="@{/prenotazione/crea-prenotazione(eventoId=${evento.idEvento})}"
-                           class="btn btn-sm btn-success">Prenota</a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+<!-- Contenitore scrollabile -->
+<div style="max-height: 400px; overflow-y: auto; border: 1px solid #ccc; border-radius: 8px;">
+    <table class="table table-bordered table-hover table-striped mb-0">
+        <thead class="table-dark text-center">
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Total places</th>
+                <th>Category</th>
+                <th>Price</th>
+                <th>Start</th>
+                <th>Finish</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="evento : ${eventi}">
+                <td th:text="${evento.nome}">Name</td>
+                <td th:text="${evento.descrizione}">Description</td>
+                <td th:text="${evento.postiDisponibili}">0</td>
+                <td th:text="${evento.categoria.nome}">Category</td>
+                <td th:text="${evento.prezzo} + ' €'">0 €</td>
+                <td th:text="${#temporals.format(evento.dataInizio, 'dd/MM/yyyy')}">01/01/2025</td>
+                <td th:text="${#temporals.format(evento.dataFine, 'dd/MM/yyyy')}">02/01/2025</td>
+                <td class="text-center">
+                    <a th:href="@{/prenotazione/crea-prenotazione(eventoId=${evento.idEvento})}"
+                       class="btn btn-sm btn-success">Prenota</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </div>
 
-	<footer>
-		<p>&copy; 2025 - Event Management</p>
-	</footer>
+</div>
+
+<footer>
+	<p>&copy; 2025 - Event Management</p>
+</footer>
 
 </body>
 </html>
