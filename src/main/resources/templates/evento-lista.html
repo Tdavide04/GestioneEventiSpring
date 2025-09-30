@@ -109,7 +109,7 @@ background-color: #a30000;
 
 				<!-- Solo ADMIN può gestire utenti -->
 				<li class="nav-item" th:if="${#strings.equals(loggedRuolo,'ADMIN')}">
-					<a class="nav-link" th:href="@{/admin/lista-utenti}">Manage Users</a>
+					<a class="nav-link" th:href="@{/utenti}">Manage Users</a>
 				</li>
 
 				<!-- Logout sempre visibile -->

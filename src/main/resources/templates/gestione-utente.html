@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestione Utenti - Admin</title>
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            background: papayawhip;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+    .navbar {
+        background-color: maroon;
+    }
+
+    .navbar-brand, .nav-link {
+        color: white !important;
+        font-weight: 500;
+    }
+
+    h1 {
+        font-weight: bold;
+        color: maroon;
+    }
+
+    footer {
+        margin-top: 40px;
+        background-color: maroon;
+        color: white;
+        padding: 15px 0;
+        text-align: center;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+    }
+
+    /* Dropdown personalizzato */
+    .dropdown {
+        position: relative;
+    }
+    .dropdown-menu {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background-color: maroon;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        border-radius: 4px;
+        min-width: 160px;
+        z-index: 1000;
+    }
+    .dropdown:hover .dropdown-menu {
+        display: block;
+    }
+    .dropdown-item {
+        display: block;
+        padding: 8px 12px;
+        color: white;
+        text-decoration: none;
+    }
+    .dropdown-item:hover {
+        background-color: #a30000;
+    }
+</style>
+
+</head>
+<body>
+
+<!-- Navbar -->
+
+<nav class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">Event Management</a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav ms-auto">
+                <!-- Link prenotazioni utente -->
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/prenotazione/mie-prenotazioni}">Le mie prenotazioni</a>
+                </li>
+
+            <!-- Dropdown Eventi -->
+            <li class="nav-item dropdown">
+                <a href="#" class="nav-link">Eventi ▾</a>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" th:href="@{/evento/attivi}">Attivi</a></li>
+                    <li><a class="dropdown-item" th:href="@{/evento/scaduti}">Scaduti</a></li>
+                    <li><a class="dropdown-item" th:href="@{/evento/in-scadenza}">In scadenza</a></li>
+                    <li><a class="dropdown-item" th:href="@{/evento/recenti}">Recenti</a></li>
+                </ul>
+            </li>
+
+            <!-- ORGANIZZATORE o ADMIN possono creare eventi -->
+            <li class="nav-item"
+                th:if="${#strings.equals(loggedRuolo,'ORGANIZZATORE') or #strings.equals(loggedRuolo,'ADMIN')}">
+                <a class="nav-link" th:href="@{/evento/nuovo}">Add Event</a>
+            </li>
+
+            <!-- ORGANIZZATORE o ADMIN possono creare categorie -->
+            <li class="nav-item"
+                th:if="${#strings.equals(loggedRuolo,'ORGANIZZATORE') or #strings.equals(loggedRuolo,'ADMIN')}">
+                <a class="nav-link" th:href="@{/categoria/nuova}">Create Category</a>
+            </li>
+
+            <!-- Solo ADMIN può gestire utenti -->
+            <li class="nav-item" th:if="${#strings.equals(loggedRuolo,'ADMIN')}">
+                <a class="nav-link" th:href="@{/utenti}">Manage Users</a>
+            </li>
+
+            <!-- Logout -->
+            <li class="nav-item"><a class="nav-link" th:href="@{/logout}">Logout</a></li>
+        </ul>
+    </div>
+</div>
+
+</nav>
+
+<div class="container mt-4">
+
+<h1 class="mb-4">Gestione Utenti</h1>
+
+<!-- Messaggi flash -->
+<div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
+<div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+
+<!-- Tabella utenti -->
+<div style="max-height: 400px; overflow-y: auto; border: 1px solid #ccc; border-radius: 8px;">
+    <table class="table table-bordered table-hover table-striped mb-0">
+        <thead class="table-dark text-center">
+            <tr>
+                <th>ID</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Ruolo</th>
+                <th>Azioni</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="utente : ${utenti}">
+                <td th:text="${utente.id}">1</td>
+                <td th:text="${utente.username}">lollo</td>
+                <td th:text="${utente.email}">lollo@lollo.it</td>
+                <td th:text="${utente.ruolo}">ADMIN</td>
+                <td class="text-center">
+                    <a th:href="@{/admin/modifica-utente(id=${utente.id})}" class="btn btn-sm btn-primary">Modifica</a>
+                    <a th:href="@{/admin/elimina-utente(id=${utente.id})}" class="btn btn-sm btn-danger"
+                       onclick="return confirm('Sei sicuro di voler eliminare questo utente?');">Elimina</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+</div>
+
+<footer>
+    <p>&copy; 2025 - WonderTicket</p>
+</footer>
+
+</body>
+</html>
