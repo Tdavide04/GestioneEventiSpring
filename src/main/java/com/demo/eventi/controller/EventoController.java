@@ -59,6 +59,7 @@ public class EventoController {
 	        getLoggedUser(session);
 	        List<Evento> eventi = eventoService.trovaEventiScaduti();
 	        model.addAttribute("eventi", eventi);
+	        model.addAttribute("loggedRuolo", session.getAttribute("loggedRuolo"));
 	        return "evento-lista";
 	    } catch (Exception e) {
 	        return "redirect:/login";
@@ -71,6 +72,7 @@ public class EventoController {
 	        getLoggedUser(session);
 	        List<Evento> eventi = eventoService.trovaEventiInScadenza();
 	        model.addAttribute("eventi", eventi);
+	        model.addAttribute("loggedRuolo", session.getAttribute("loggedRuolo"));
 	        return "evento-lista";
 	    } catch (Exception e) {
 	        return "redirect:/login";
@@ -83,6 +85,7 @@ public class EventoController {
 	        getLoggedUser(session);
 	        List<Evento> eventi = eventoService.trovaEventiRecenti();
 	        model.addAttribute("eventi", eventi);
+	        model.addAttribute("loggedRuolo", session.getAttribute("loggedRuolo"));
 	        return "evento-lista";
 	    } catch (Exception e) {
 	        return "redirect:/login";
