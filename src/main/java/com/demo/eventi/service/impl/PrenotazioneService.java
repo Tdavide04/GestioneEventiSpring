@@ -59,6 +59,8 @@ public class PrenotazioneService implements IPrenotazioneService {
 		if (!prenotazioneRepository.existsById(id)) {
 			throw new Exception("Prenotazione non trovata per ID: " + id);
 		}
+		Prenotazione prenotazione = prenotazioneRepository.getById(id);
+		prenotazione.getEvento().setPostiOccupati(prenotazione.getEvento().getPostiOccupati() - prenotazione.getPostiPrenotati());
 		prenotazioneRepository.deleteById(id);
 	}
 
