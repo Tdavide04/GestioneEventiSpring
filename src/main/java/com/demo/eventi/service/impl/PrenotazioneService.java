@@ -35,7 +35,7 @@ public class PrenotazioneService implements IPrenotazioneService {
 	@Override
 	public Prenotazione creaPrenotazione(Evento evento, Utente utente, Integer postiPrenotati) throws Exception {
 		if(evento.getPostiDisponibili() > 0 && evento.getPostiDisponibili() - postiPrenotati >= 0) {
-			if (evento.getDataFine().isBefore(LocalDate.now())) {
+			if (evento.getDataFine().isAfter(LocalDate.now())) {
 				Prenotazione prenotazione = new Prenotazione(evento, utente, postiPrenotati);
 				try {
 					evento.setPostiOccupati(evento.getPostiOccupati() + postiPrenotati);

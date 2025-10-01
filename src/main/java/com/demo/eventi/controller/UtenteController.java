@@ -1,5 +1,6 @@
 package com.demo.eventi.controller;
 
+import com.demo.eventi.model.Ruolo;
 import com.demo.eventi.model.Utente;
 import com.demo.eventi.service.IUtenteService;
 import org.springframework.stereotype.Controller;
@@ -24,9 +25,9 @@ public class UtenteController {
     @GetMapping
     public String listaUtenti(Model model, HttpSession session, RedirectAttributes redirectAttrs) {
         String username = (String) session.getAttribute("loggedUtente");
-        String ruolo = (String) session.getAttribute("loggedRuolo");
+        Ruolo ruolo = (Ruolo) session.getAttribute("loggedRuolo");
 
-        if (username == null || ruolo == null || !ruolo.equals("ADMIN")) {
+        if (username == null || ruolo == null || ruolo != Ruolo.ADMIN) {
             redirectAttrs.addFlashAttribute("error", "Accesso non autorizzato");
             return "redirect:/evento/attivi";
         }
@@ -35,17 +36,17 @@ public class UtenteController {
         return "gestione-utente";
     }
 
-    @GetMapping("/modifica/{id}")
-    public String mostraFormModifica(@PathVariable Long id, Model model, HttpSession session, RedirectAttributes redirectAttrs) {
+    @GetMapping("/modifica")
+    public String mostraFormModifica(Model model, HttpSession session, RedirectAttributes redirectAttrs) {
         String username = (String) session.getAttribute("loggedUtente");
-        String ruolo = (String) session.getAttribute("loggedRuolo");
+        Ruolo ruolo = (Ruolo) session.getAttribute("loggedRuolo");
 
-        if (username == null || ruolo == null || !ruolo.equals("ADMIN")) {
+        if (username == null || ruolo == null || ruolo != Ruolo.ADMIN) {
             redirectAttrs.addFlashAttribute("error", "Accesso non autorizzato");
             return "redirect:/evento/attivi";
         }
 
-        Optional<Utente> utenteOpt = utenteService.trovaPerId(id);
+        Optional<Utente> utenteOpt = utenteService.trovaPerUsername(username);
         if (utenteOpt.isPresent()) {
             model.addAttribute("utente", utenteOpt.get());
             return "gestione-utente";
@@ -60,9 +61,9 @@ public class UtenteController {
                                  HttpSession session,
                                  RedirectAttributes redirectAttrs) {
         String username = (String) session.getAttribute("loggedUtente");
-        String ruolo = (String) session.getAttribute("loggedRuolo");
+        Ruolo ruolo = (Ruolo) session.getAttribute("loggedRuolo");
 
-        if (username == null || ruolo == null || !ruolo.equals("ADMIN")) {
+        if (username == null || ruolo == null || ruolo != Ruolo.ADMIN) {
             redirectAttrs.addFlashAttribute("error", "Accesso non autorizzato");
             return "redirect:/evento/attivi";
         }
