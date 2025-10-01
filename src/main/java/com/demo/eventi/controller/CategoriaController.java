@@ -36,12 +36,11 @@ public class CategoriaController {
                 .orElse(false);
     }
 
-
     @GetMapping("/nuova")
     public String mostraFormCategoria(Model model, HttpSession session, RedirectAttributes redirectAttrs) {
         if (!isAdmin(session)) {
-            redirectAttrs.addFlashAttribute("error", "Accesso negato: solo per amministratori.");
-            return "redirect:/evento/evento-lista";
+            redirectAttrs.addFlashAttribute("error", "Access denied: administrators only.");
+            return "redirect:/evento/attivi";
         }
 
         model.addAttribute("categoria", new Categoria());
@@ -51,18 +50,17 @@ public class CategoriaController {
     @PostMapping("/crea")
     public String creaCategoria(@ModelAttribute Categoria categoria, HttpSession session, RedirectAttributes redirectAttrs) {
         if (!isAdmin(session)) {
-            redirectAttrs.addFlashAttribute("error", "Accesso negato.");
-            return "redirect:/evento/evento-lista";
+            redirectAttrs.addFlashAttribute("error", "Access denied.");
+            return "redirect:/evento/attivi";
         }
 
         try {
             categoriaService.creaCategoria(categoria);
-            redirectAttrs.addFlashAttribute("success", "Categoria creata con successo!");
+            redirectAttrs.addFlashAttribute("success", "Category created successfully!");
         } catch (Exception e) {
-            redirectAttrs.addFlashAttribute("error", "Errore durante la creazione della categoria.");
+            redirectAttrs.addFlashAttribute("error", "Error creating category: " + e.getMessage());
         }
 
         return "redirect:/evento/nuovo";
     }
 }
-

@@ -49,8 +49,8 @@
                         <form th:action="@{/admin/update-role}" method="post" class="d-flex">
                             <input type="hidden" th:name="id" th:value="${utente.id}" />
                             <select class="form-select form-select-sm me-2" th:name="ruolo">
-                                <option value="CLIENTE" th:selected="${utente.ruolo == 'CLIENTE'}">CLIENTE</option>
-                                <option value="ORGANIZZATORE" th:selected="${utente.ruolo == 'ORGANIZZATORE'}">ORGANIZZATORE</option>
+                                <option value="CLIENT" th:selected="${utente.ruolo == 'CLIENT'}">CLIENT</option>
+                                <option value="ORGANIZER" th:selected="${utente.ruolo == 'ORGANIZER'}">ORGANIZER</option>
                             </select>
                             <button type="submit" class="btn btn-sm btn-primary">Update</button>
                         </form>

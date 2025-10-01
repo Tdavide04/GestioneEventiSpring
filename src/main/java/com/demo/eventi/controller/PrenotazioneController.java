@@ -23,111 +23,107 @@ import jakarta.servlet.http.HttpSession;
 @RequestMapping("/prenotazione")
 public class PrenotazioneController {
 
-	private final IUtenteService utenteService;
-	private final IEventoService eventoService;
-	private final IPrenotazioneService prenotazioneService;
+    private final IUtenteService utenteService;
+    private final IEventoService eventoService;
+    private final IPrenotazioneService prenotazioneService;
 
-	public PrenotazioneController(IUtenteService utenteService, IEventoService eventoService, IPrenotazioneService prenotazioneService) {
-		this.utenteService = utenteService;
-		this.eventoService = eventoService;
-		this.prenotazioneService = prenotazioneService;
-	}
+    public PrenotazioneController(IUtenteService utenteService, IEventoService eventoService, IPrenotazioneService prenotazioneService) {
+        this.utenteService = utenteService;
+        this.eventoService = eventoService;
+        this.prenotazioneService = prenotazioneService;
+    }
 
-	private Utente getLoggedUser(HttpSession session) throws Exception {
-		String username = (String) session.getAttribute("loggedUtente");
-		if (username == null)
-			throw new Exception("Utente non autenticato");
-		return utenteService.trovaPerUsername(username).orElseThrow(() -> new Exception("Utente non trovato"));
-	}
-	
-	//Aggiunto da Gey
-	@GetMapping("/crea-prenotazione")
-	public String mostraFormPrenotazione(@RequestParam("eventoId") Long eventoId, Model model) {
-	    Evento evento = eventoService.trovaPerId(eventoId)
-	            .orElseThrow(() -> new RuntimeException("Evento non trovato con id: " + eventoId));
-	    model.addAttribute("evento", evento);
-	    return "prenotazione"; // il nome del file prenotazione.html
-	}
+    private Utente getLoggedUser(HttpSession session) throws Exception {
+        String username = (String) session.getAttribute("loggedUtente");
+        if (username == null)
+            throw new Exception("User not authenticated");
+        return utenteService.trovaPerUsername(username).orElseThrow(() -> new Exception("User not found"));
+    }
+    
+    @GetMapping("/crea-prenotazione")
+    public String mostraFormPrenotazione(@RequestParam("eventoId") Long eventoId, Model model) {
+        Evento evento = eventoService.trovaPerId(eventoId)
+                .orElseThrow(() -> new RuntimeException("Event not found with id: " + eventoId));
+        model.addAttribute("evento", evento);
+        return "prenotazione"; // prenotazione.html
+    }
 
+    @PostMapping("/crea-prenotazione")
+    public String creaPrenotazione(
+            @RequestParam("idEvento") Long idEvento,
+            @RequestParam("postiPrenotati") Integer postiPrenotati,
+            HttpSession session,
+            RedirectAttributes redirectAttrs) {
 
-	@PostMapping("/crea-prenotazione")
-	public String creaPrenotazione(
-	        @RequestParam("idEvento") Long idEvento,
-	        @RequestParam("postiPrenotati") Integer postiPrenotati,
-	        HttpSession session,
-	        RedirectAttributes redirectAttrs) {
+        try {
+            Evento evento = eventoService.trovaPerId(idEvento)
+                    .orElseThrow(() -> new RuntimeException("Event not found with id: " + idEvento));
 
-	    try {
-	        Evento evento = eventoService.trovaPerId(idEvento)
-	                .orElseThrow(() -> new RuntimeException("Evento non trovato con id: " + idEvento));
+            Prenotazione prenotazione = prenotazioneService.creaPrenotazione(
+                    evento,
+                    getLoggedUser(session),
+                    postiPrenotati
+            );
 
-	        Prenotazione prenotazione = prenotazioneService.creaPrenotazione(
-	                evento,
-	                getLoggedUser(session),
-	                postiPrenotati
-	        );
+            if (prenotazione != null) {
+                redirectAttrs.addFlashAttribute("success", "Booking created successfully!");
+            } else {
+                redirectAttrs.addFlashAttribute("error", "Unable to create booking.");
+            }
+            return "redirect:/prenotazione/mie-prenotazioni";
 
-	        if (prenotazione != null) {
-	            redirectAttrs.addFlashAttribute("successo", "Prenotazione creata con successo!");
-	        } else {
-	            redirectAttrs.addFlashAttribute("errore", "Impossibile creare la prenotazione.");
-	        }
-	        return "redirect:/prenotazione/mie-prenotazioni"; // meglio portare l’utente alla lista delle sue prenotazioni
+        } catch (Exception e) {
+            redirectAttrs.addFlashAttribute("error",
+                    "Error while creating booking: " + e.getMessage());
+            return "redirect:/prenotazione/mie-prenotazioni";
+        }
+    }
 
-	    } catch (Exception e) {
-	        redirectAttrs.addFlashAttribute("errore",
-	                "Errore durante la creazione della prenotazione: " + e.getMessage());
-	        return "redirect:/prenotazione/mie-prenotazioni";
-	    }
-	}
+    @GetMapping("/mie-prenotazioni")
+    public String listaPrenotazioni(Model model, HttpSession session) {
+        try {
+            Utente utente = getLoggedUser(session);
+            List<Prenotazione> prenotazioni = prenotazioneService.trovaPerUtente(utente);
+            model.addAttribute("prenotazioni", prenotazioni);
+            return "mie-prenotazioni";
+        } catch (Exception e) {
+            return "redirect:/login";
+        }
+    }
 
-	
-	@GetMapping("/mie-prenotazioni")
-	public String listaPrenotazioni(Model model, HttpSession session) {
-		try {
-			Utente utente = getLoggedUser(session);
-			List<Prenotazione> prenotazioni = prenotazioneService.trovaPerUtente(utente);
-			model.addAttribute("prenotazioni", prenotazioni);
-			return "mie-prenotazioni";
-		} catch (Exception e) {
-			return "redirect:/login";
-		}
-	}
-	
-	@PostMapping("/aggiorna")
-	public String aggiornaPrenotazione(
+    @PostMapping("/aggiorna")
+    public String aggiornaPrenotazione(
             @RequestParam Long idPrenotazione,
             @RequestParam Integer postiPrenotati,
             RedirectAttributes redirectAttrs) {
 
         try {
             Prenotazione prenotazione = prenotazioneService.trovaPerId(idPrenotazione)
-                    .orElseThrow(() -> new Exception("Prenotazione non trovata"));
+                    .orElseThrow(() -> new Exception("Booking not found"));
 
             prenotazione.setPostiPrenotati(postiPrenotati);
             prenotazioneService.aggiornaPrenotazione(prenotazione);
 
-            redirectAttrs.addFlashAttribute("successo", "Prenotazione aggiornata con successo!");
+            redirectAttrs.addFlashAttribute("success", "Booking updated successfully!");
         } catch (Exception e) {
-            redirectAttrs.addFlashAttribute("errore", "Errore durante l'aggiornamento: " + e.getMessage());
+            redirectAttrs.addFlashAttribute("error", "Error while updating booking: " + e.getMessage());
         }
 
         return "redirect:/prenotazione/mie-prenotazioni";
     }
-	
-	@PostMapping("/elimina")
+
+    @PostMapping("/elimina")
     public String eliminaPrenotazione(
             @RequestParam Long idPrenotazione,
             RedirectAttributes redirectAttrs) {
 
         try {
             prenotazioneService.eliminaPrenotazione(idPrenotazione);
-            redirectAttrs.addFlashAttribute("successo", "Prenotazione eliminata con successo!");
+            redirectAttrs.addFlashAttribute("success", "Booking deleted successfully!");
         } catch (Exception e) {
-            redirectAttrs.addFlashAttribute("errore", "Errore durante l'eliminazione: " + e.getMessage());
+            redirectAttrs.addFlashAttribute("error", "Error while deleting booking: " + e.getMessage());
         }
 
         return "redirect:/prenotazione/mie-prenotazioni";
     }
-
 }

@@ -29,7 +29,7 @@ public class AuthController {
                                RedirectAttributes redirectAttrs) {
         try {
             utenteService.registraUtente(utente);
-            redirectAttrs.addFlashAttribute("success", "Registrazione completata! Ora puoi accedere.");
+            redirectAttrs.addFlashAttribute("success", "Registration completed! You can now log in.");
             return "redirect:/login";
         } catch (Exception e) {
             redirectAttrs.addFlashAttribute("error", e.getMessage());
@@ -54,11 +54,11 @@ public class AuthController {
                 session.setAttribute("loggedRuolo", utente.getRuolo());
                 
                 // DEBUG
-                System.out.println("DEBUG: Utente loggato: " + username + " | Ruollo: " + utente.getRuolo());
+                System.out.println("DEBUG: Logged user: " + username + " | Role: " + utente.getRuolo());
 
                 return "redirect:/evento/attivi";
             } else {
-                redirectAttrs.addFlashAttribute("error", "Credenziali errate");
+                redirectAttrs.addFlashAttribute("error", "Invalid credentials.");
                 return "redirect:/login";
             }
         } catch (Exception e) {
@@ -70,7 +70,7 @@ public class AuthController {
     @GetMapping("/logout")
     public String logoutUtente(HttpSession session, RedirectAttributes redirectAttrs) {
         session.invalidate();
-        redirectAttrs.addFlashAttribute("success", "Logout effettuato con successo.");
+        redirectAttrs.addFlashAttribute("success", "Successfully logged out.");
         return "redirect:/login";
     }
 }

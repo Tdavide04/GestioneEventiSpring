@@ -97,13 +97,13 @@ background-color: #a30000;
 
 				<!-- ORGANIZER or ADMIN can create events -->
 				<li class="nav-item"
-					th:if="${#strings.equals(loggedRuolo,'ORGANIZZATORE') or #strings.equals(loggedRuolo,'ADMIN')}">
+					th:if="${#strings.equals(loggedRuolo,'ORGANIZER') or #strings.equals(loggedRuolo,'ADMIN')}">
 					<a class="nav-link" th:href="@{/evento/nuovo}">Add Event</a>
 				</li>
 
 				<!-- ORGANIZER or ADMIN can create categories -->
 				<li class="nav-item"
-					th:if="${#strings.equals(loggedRuolo,'ORGANIZZATORE') or #strings.equals(loggedRuolo,'ADMIN')}">
+					th:if="${#strings.equals(loggedRuolo,'ORGANIZER') or #strings.equals(loggedRuolo,'ADMIN')}">
 					<a class="nav-link" th:href="@{/categoria/nuova}">Create Category</a>
 				</li>
 

@@ -28,7 +28,7 @@ public class UtenteController {
         Ruolo ruolo = (Ruolo) session.getAttribute("loggedRuolo");
 
         if (username == null || ruolo == null || ruolo != Ruolo.ADMIN) {
-            redirectAttrs.addFlashAttribute("error", "Accesso non autorizzato");
+            redirectAttrs.addFlashAttribute("error", "Access denied");
             return "redirect:/evento/attivi";
         }
 
@@ -42,7 +42,7 @@ public class UtenteController {
         Ruolo ruolo = (Ruolo) session.getAttribute("loggedRuolo");
 
         if (username == null || ruolo == null || ruolo != Ruolo.ADMIN) {
-            redirectAttrs.addFlashAttribute("error", "Accesso non autorizzato");
+            redirectAttrs.addFlashAttribute("error", "Access denied");
             return "redirect:/evento/attivi";
         }
 
@@ -51,32 +51,11 @@ public class UtenteController {
             model.addAttribute("utente", utenteOpt.get());
             return "gestione-utente";
         } else {
-            redirectAttrs.addFlashAttribute("error", "Utente non trovato");
+            redirectAttrs.addFlashAttribute("error", "User not found");
             return "redirect:/utenti";
         }
+    
     }
-
-//    @PostMapping("/aggiorna")
-//    public String aggiornaUtente(@ModelAttribute Utente utente,
-//                                 HttpSession session,
-//                                 RedirectAttributes redirectAttrs) {
-//        String username = (String) session.getAttribute("loggedUtente");
-//        Ruolo ruolo = (Ruolo) session.getAttribute("loggedRuolo");
-//
-//        if (username == null || ruolo == null || ruolo != Ruolo.ADMIN) {
-//            redirectAttrs.addFlashAttribute("error", "Accesso non autorizzato");
-//            return "redirect:/evento/attivi";
-//        }
-//
-//        try {
-//            utenteService.aggiornaUtente(utente);
-//            redirectAttrs.addFlashAttribute("success", "Utente aggiornato con successo");
-//        } catch (Exception e) {
-//            redirectAttrs.addFlashAttribute("error", e.getMessage());
-//        }
-//
-//        return "redirect:/utenti";
-//    }
     
     @PostMapping("/aggiorna")
     public String aggiornaUtente(
@@ -92,9 +71,9 @@ public class UtenteController {
                 utente.setEmail(email);
                 utente.setRuolo(ruolo);
                 utenteService.aggiornaUtente(utente);
-                redirectAttrs.addFlashAttribute("success", "Utente aggiornato con successo");
+                redirectAttrs.addFlashAttribute("success", "The user has been updated successfully");
             } else {
-                redirectAttrs.addFlashAttribute("error", "Utente non trovato");
+                redirectAttrs.addFlashAttribute("error", "User not found");
             }
         } catch (Exception e) {
             redirectAttrs.addFlashAttribute("error", e.getMessage());

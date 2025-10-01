@@ -89,11 +89,11 @@
                     </ul>
                 </li>
                 <li class="nav-item"
-                    th:if="${#strings.equals(loggedRuolo,'ORGANIZZATORE') or #strings.equals(loggedRuolo,'ADMIN')}">
+                    th:if="${#strings.equals(loggedRuolo,'ORGANIZER') or #strings.equals(loggedRuolo,'ADMIN')}">
                     <a class="nav-link" th:href="@{/evento/nuovo}">Add Event</a>
                 </li>
                 <li class="nav-item"
-                    th:if="${#strings.equals(loggedRuolo,'ORGANIZZATORE') or #strings.equals(loggedRuolo,'ADMIN')}">
+                    th:if="${#strings.equals(loggedRuolo,'ORGANIZER') or #strings.equals(loggedRuolo,'ADMIN')}">
                     <a class="nav-link" th:href="@{/categoria/nuova}">Create Category</a>
                 </li>
                 <li class="nav-item" th:if="${#strings.equals(loggedRuolo,'ADMIN')}">
@@ -173,8 +173,8 @@
                         <div class="mb-3">
                             <label class="form-label">Role</label>
                             <select class="form-select" name="ruolo">
-                                <option th:selected="${utente.ruolo == 'CLIENTE'}" value="CLIENTE">CLIENT</option>
-                                <option th:selected="${utente.ruolo == 'ORGANIZZATORE'}" value="ORGANIZZATORE">ORGANIZER</option>
+                                <option th:selected="${utente.ruolo == 'CLIENT'}" value="CLIENT">CLIENT</option>
+                                <option th:selected="${utente.ruolo == 'ORGANIZER'}" value="ORGANIZER">ORGANIZER</option>
                                 <option th:selected="${utente.ruolo == 'ADMIN'}" value="ADMIN">ADMIN</option>
                             </select>
                         </div>
