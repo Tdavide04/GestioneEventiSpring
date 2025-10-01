@@ -42,7 +42,7 @@
             <tr th:each="utente : ${utenti}">
                 <td th:text="${utente.username}">username</td>
                 <td th:text="${utente.email}">email@example.com</td>
-                <td th:text="${utente.ruolo}">CLIENTE</td>
+                <td th:text="${utente.ruolo}">example</td>
                 <td>
                     <!-- Se l'utente NON è admin -->
                     <div th:if="${utente.ruolo != 'ADMIN'}">

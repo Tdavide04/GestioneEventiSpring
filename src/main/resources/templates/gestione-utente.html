@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Gestione Utenti - Admin</title>
+    <title>User Management - Admin</title>
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -77,15 +77,15 @@
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
-                    <a class="nav-link" th:href="@{/prenotazione/mie-prenotazioni}">Le mie prenotazioni</a>
+                    <a class="nav-link" th:href="@{/prenotazione/mie-prenotazioni}">My Bookings</a>
                 </li>
                 <li class="nav-item dropdown">
-                    <a href="#" class="nav-link">Eventi ▾</a>
+                    <a href="#" class="nav-link">Events ▾</a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" th:href="@{/evento/attivi}">Attivi</a></li>
-                        <li><a class="dropdown-item" th:href="@{/evento/scaduti}">Scaduti</a></li>
-                        <li><a class="dropdown-item" th:href="@{/evento/in-scadenza}">In scadenza</a></li>
-                        <li><a class="dropdown-item" th:href="@{/evento/recenti}">Recenti</a></li>
+                        <li><a class="dropdown-item" th:href="@{/evento/attivi}">Active</a></li>
+                        <li><a class="dropdown-item" th:href="@{/evento/scaduti}">Expired</a></li>
+                        <li><a class="dropdown-item" th:href="@{/evento/in-scadenza}">Ending Soon</a></li>
+                        <li><a class="dropdown-item" th:href="@{/evento/recenti}">Recent</a></li>
                     </ul>
                 </li>
                 <li class="nav-item"
@@ -106,12 +106,12 @@
 </nav>
 
 <div class="container mt-4">
-    <h1 class="mb-4">Gestione Utenti</h1>
+    <h1 class="mb-4">User Management</h1>
 
     <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
     <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
 
-    <!-- Tabella utenti -->
+    <!-- Users table -->
     <div style="max-height: 400px; overflow-y: auto; border: 1px solid #ccc; border-radius: 8px;">
         <table class="table table-bordered table-hover table-striped mb-0">
             <thead class="table-dark text-center">
@@ -119,29 +119,29 @@
                     <th>ID</th>
                     <th>Username</th>
                     <th>Email</th>
-                    <th>Ruolo</th>
-                    <th>Azioni</th>
+                    <th>Role</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
                 <tr th:each="utente : ${utenti}">
-                    <td th:text="${utente.idUtente}">1</td>
-                    <td th:text="${utente.username}">lollo</td>
-                    <td th:text="${utente.email}">lollo@lollo.it</td>
-                    <td th:text="${utente.ruolo}">ADMIN</td>
+                    <td th:text="${utente.idUtente}"></td>
+                    <td th:text="${utente.username}"></td>
+                    <td th:text="${utente.email}"></td>
+                    <td th:text="${utente.ruolo}"></td>
                     <td class="text-center">
-                        <!-- Bottone Modifica apre la modale -->
+                        <!-- Edit button opens modal -->
                         <button class="btn btn-sm btn-primary"
                                 data-bs-toggle="modal"
-                                th:data-bs-target="'#modificaModal-' + ${utente.idUtente}">
-                            Modifica
+                                th:data-bs-target="'#editModal-' + ${utente.idUtente}">
+                            Edit
                         </button>
 
-                        <!-- Bottone Elimina -->
+                        <!-- Delete button -->
                         <a th:href="@{/utenti/elimina/{id}(id=${utente.idUtente})}"
                            class="btn btn-sm btn-danger"
-                           onclick="return confirm('Sei sicuro di voler eliminare questo utente?');">
-                            Elimina
+                           onclick="return confirm('Are you sure you want to delete this user?');">
+                            Delete
                         </a>
                     </td>
                 </tr>
@@ -150,14 +150,14 @@
     </div>
 </div>
 
-<!-- Modale di modifica per ogni utente -->
+<!-- Edit modal for each user -->
 <div th:each="utente : ${utenti}">
-    <div class="modal fade" th:id="'modificaModal-' + ${utente.idUtente}" tabindex="-1">
+    <div class="modal fade" th:id="'editModal-' + ${utente.idUtente}" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
                 <form th:action="@{/utenti/aggiorna}" method="post">
                     <div class="modal-header">
-                        <h5 class="modal-title">Modifica Utente</h5>
+                        <h5 class="modal-title">Edit User</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                     </div>
                     <div class="modal-body">
@@ -171,17 +171,17 @@
                             <input type="email" class="form-control" name="email" th:value="${utente.email}">
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">Ruolo</label>
+                            <label class="form-label">Role</label>
                             <select class="form-select" name="ruolo">
-                                <option th:selected="${utente.ruolo == 'CLIENTE'}" value="CLIENTE">CLIENTE</option>
-                                <option th:selected="${utente.ruolo == 'ORGANIZZATORE'}" value="ORGANIZZATORE">ORGANIZZATORE</option>
+                                <option th:selected="${utente.ruolo == 'CLIENTE'}" value="CLIENTE">CLIENT</option>
+                                <option th:selected="${utente.ruolo == 'ORGANIZZATORE'}" value="ORGANIZZATORE">ORGANIZER</option>
                                 <option th:selected="${utente.ruolo == 'ADMIN'}" value="ADMIN">ADMIN</option>
                             </select>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
-                        <button type="submit" class="btn btn-primary">Salva modifiche</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
                     </div>
                 </form>
             </div>
