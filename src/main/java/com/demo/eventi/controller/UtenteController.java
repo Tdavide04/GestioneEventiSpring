@@ -56,25 +56,51 @@ public class UtenteController {
         }
     }
 
+//    @PostMapping("/aggiorna")
+//    public String aggiornaUtente(@ModelAttribute Utente utente,
+//                                 HttpSession session,
+//                                 RedirectAttributes redirectAttrs) {
+//        String username = (String) session.getAttribute("loggedUtente");
+//        Ruolo ruolo = (Ruolo) session.getAttribute("loggedRuolo");
+//
+//        if (username == null || ruolo == null || ruolo != Ruolo.ADMIN) {
+//            redirectAttrs.addFlashAttribute("error", "Accesso non autorizzato");
+//            return "redirect:/evento/attivi";
+//        }
+//
+//        try {
+//            utenteService.aggiornaUtente(utente);
+//            redirectAttrs.addFlashAttribute("success", "Utente aggiornato con successo");
+//        } catch (Exception e) {
+//            redirectAttrs.addFlashAttribute("error", e.getMessage());
+//        }
+//
+//        return "redirect:/utenti";
+//    }
+    
     @PostMapping("/aggiorna")
-    public String aggiornaUtente(@ModelAttribute Utente utente,
-                                 HttpSession session,
-                                 RedirectAttributes redirectAttrs) {
-        String username = (String) session.getAttribute("loggedUtente");
-        Ruolo ruolo = (Ruolo) session.getAttribute("loggedRuolo");
-
-        if (username == null || ruolo == null || ruolo != Ruolo.ADMIN) {
-            redirectAttrs.addFlashAttribute("error", "Accesso non autorizzato");
-            return "redirect:/evento/attivi";
-        }
-
+    public String aggiornaUtente(
+            @RequestParam Long idUtente,
+            @RequestParam String email,
+            @RequestParam Ruolo ruolo,
+            RedirectAttributes redirectAttrs
+    ) {
         try {
-            utenteService.aggiornaUtente(utente);
-            redirectAttrs.addFlashAttribute("success", "Utente aggiornato con successo");
+            Optional<Utente> utenteOpt = utenteService.trovaPerId(idUtente);
+            if (utenteOpt.isPresent()) {
+                Utente utente = utenteOpt.get();
+                utente.setEmail(email);
+                utente.setRuolo(ruolo);
+                utenteService.aggiornaUtente(utente);
+                redirectAttrs.addFlashAttribute("success", "Utente aggiornato con successo");
+            } else {
+                redirectAttrs.addFlashAttribute("error", "Utente non trovato");
+            }
         } catch (Exception e) {
             redirectAttrs.addFlashAttribute("error", e.getMessage());
         }
 
         return "redirect:/utenti";
     }
+
 }
